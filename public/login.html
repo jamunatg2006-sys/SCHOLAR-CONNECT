@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - SCHOLAR CONNECT</title>
+    <link rel="stylesheet" href="login.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+     <link rel="icon" type="image/png" href="images\logo.jpg">
+</head>
+<body>
+    <div class="wrapper">
+        <form id="loginForm">
+            <h1>Login</h1>
+            <div class="input-box">
+                <i class="fa-solid fa-user"></i>
+                <input id="email" type="email" placeholder="Email" required>
+            </div>
+            <div class="input-box">
+                <i class="fa-solid fa-lock"></i>
+                <input id="password" type="password" placeholder="Password" required>
+            </div>
+            <div class="remember-forgot">
+                <label>
+                    <input id="remember" type="checkbox">Remember me
+                </label>
+                <a href="forgot-password.html">Forgot password?</a>
+            </div>
+            <button type="submit" class="btn">Login</button>
+            <div id="message" class="message"></div>
+            <div class="register-link">
+                <p>Don't have an account? <a href="register.html">SignUp</a></p>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // If user already has a token, redirect to dashboard
+        // (function(){
+        //     const t = localStorage.getItem('jwtToken') || sessionStorage.getItem('jwtToken');
+        //     if (t) {
+        //         window.location.href = 'dashboard.html';
+        //     }
+        // })();
+
+        const form = document.getElementById('loginForm');
+        const messageDiv = document.getElementById('message');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            messageDiv.textContent = '';
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const remember = document.getElementById('remember').checked;
+
+            if (!email || !password) {
+                messageDiv.style.color = 'red';
+                messageDiv.textContent = 'Please enter email and password';
+                return;
+            }
+
+            try {
+                const res = await fetch('/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await res.json();
+                if (res.ok && data.success) {
+                    // Store token
+                    if (remember) {
+                        localStorage.setItem('jwtToken', data.token);
+                    } else {
+                        sessionStorage.setItem('jwtToken', data.token);
+                    }
+                    messageDiv.style.color = 'green';
+                    messageDiv.textContent = 'Login successful! Redirecting...';
+                    // Redirect to the secure dashboard
+                    setTimeout(() => { window.location.href = 'dashboard.html'; }, 800);
+                } else {
+                    messageDiv.style.color = 'red';
+                    messageDiv.textContent = data.message || 'Login failed';
+                }
+            } catch (err) {
+                console.error(err);
+                messageDiv.style.color = 'red';
+                messageDiv.textContent = 'Server error. Try again later.';
+            }
+        });
+    </script>
+</body>
+</html>
+
+
+

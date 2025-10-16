@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us(SCHOLAR CONNECT)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Scroll animation: pop effect */
+    .scroll-item {
+      opacity: 0;
+      transform: translateX(-50px);
+      transition: all 0.7s ease-out;
+    }
+    .scroll-item.right {
+      transform: translateX(50px);
+    }
+    .scroll-item.active {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* FAQ styles */
+    .faq-answer {
+      transition: max-height 0.5s ease, padding 0.3s ease;
+      overflow: hidden;
+      max-height: 0;
+      padding: 0 1rem;
+    }
+    .faq-active {
+      max-height: 500px;
+      padding: 0.5rem 1rem;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 font-sans">
+
+  <!-- Hero Section -->
+  <section class="bg-gradient-to-r from-purple-500 to-indigo-500 text-white py-20 scroll-item">
+    <div class="container mx-auto text-center">
+      <h1 class="text-5xl font-bold mb-4">About Us</h1>
+      <p class="text-xl md:text-2xl">Making scholarships accessible for everyone, anytime.</p>
+    </div>
+  </section>
+
+  <!-- Vision Section -->
+  <section class="py-16 container mx-auto px-4 scroll-item right">
+    <h2 class="text-3xl font-semibold text-center mb-8">Our Vision</h2>
+    <div class="grid md:grid-cols-3 gap-8 text-center">
+      <div class="bg-white rounded-xl shadow-lg p-6 transform hover:scale-105 transition duration-300">
+        <svg class="mx-auto mb-4 w-12 h-12 text-indigo-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path>
+        </svg>
+        <h3 class="font-semibold text-xl mb-2">Centralized Info</h3>
+        <p>All scholarships in one place, easy to search and apply.</p>
+      </div>
+      <div class="bg-white rounded-xl shadow-lg p-6 transform hover:scale-105 transition duration-300">
+        <svg class="mx-auto mb-4 w-12 h-12 text-indigo-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-3-3v6"></path>
+        </svg>
+        <h3 class="font-semibold text-xl mb-2">Trusted Sources</h3>
+        <p>We provide verified scholarships and avoid scams.</p>
+      </div>
+      <div class="bg-white rounded-xl shadow-lg p-6 transform hover:scale-105 transition duration-300">
+        <svg class="mx-auto mb-4 w-12 h-12 text-indigo-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+        </svg>
+        <h3 class="font-semibold text-xl mb-2">AI Assistance</h3>
+        <p>Get personalized help and guidance to apply quickly.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Section -->
+  <section class="bg-indigo-50 py-16 scroll-item">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-semibold text-center mb-8">Why We Created This</h2>
+      <div class="space-y-6 max-w-3xl mx-auto text-center text-gray-700 text-lg">
+        <p>Many students miss out on scholarships due to scattered information.</p>
+        <p>Finding verified scholarships is time-consuming and confusing.</p>
+        <p>We wanted to create a platform that simplifies the process and empowers students.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Helps Section -->
+  <section class="py-16 container mx-auto px-4 scroll-item right">
+    <h2 class="text-3xl font-semibold text-center mb-8">How We Help</h2>
+    <div class="grid md:grid-cols-2 gap-8 text-gray-700">
+      <div class="bg-white rounded-xl shadow-lg p-6 flex items-start gap-4 transform hover:scale-105 transition duration-300">
+        <svg class="w-10 h-10 text-indigo-500 mt-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path>
+        </svg>
+        <p>Personalized scholarship recommendations to save time and effort.</p>
+      </div>
+      <div class="bg-white rounded-xl shadow-lg p-6 flex items-start gap-4 transform hover:scale-105 transition duration-300">
+        <svg class="w-10 h-10 text-indigo-500 mt-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-3-3v6"></path>
+        </svg>
+        <p>Step-by-step guidance on applications and deadlines.</p>
+      </div>
+      <div class="bg-white rounded-xl shadow-lg p-6 flex items-start gap-4 transform hover:scale-105 transition duration-300">
+        <svg class="w-10 h-10 text-indigo-500 mt-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+        </svg>
+        <p>Trusted and verified scholarships to avoid scams.</p>
+      </div>
+      <div class="bg-white rounded-xl shadow-lg p-6 flex items-start gap-4 transform hover:scale-105 transition duration-300">
+        <svg class="w-10 h-10 text-indigo-500 mt-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path>
+        </svg>
+        <p>AI assistant to answer your queries quickly.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="bg-gray-50 py-16 scroll-item">
+    <div class="container mx-auto px-4 max-w-3xl">
+      <h2 class="text-3xl font-semibold text-center mb-8">Frequently Asked Questions</h2>
+      
+      <div class="space-y-4">
+        <div class="faq-item border border-gray-200 rounded-lg overflow-hidden shadow-sm">
+          <button class="faq-question w-full text-left p-4 bg-white hover:bg-indigo-50 transition flex justify-between items-center font-medium">
+            How do I apply for scholarships?
+            <span class="faq-icon text-indigo-500">+</span>
+          </button>
+          <div class="faq-answer bg-white text-gray-700">
+            <p>Click on any scholarship listing, read the eligibility, and follow the application link to apply directly.</p>
+          </div>
+        </div>
+
+        <div class="faq-item border border-gray-200 rounded-lg overflow-hidden shadow-sm">
+          <button class="faq-question w-full text-left p-4 bg-white hover:bg-indigo-50 transition flex justify-between items-center font-medium">
+            Is this website free?
+            <span class="faq-icon text-indigo-500">+</span>
+          </button>
+          <div class="faq-answer bg-white text-gray-700">
+            <p>Yes! All resources, listings, and AI assistance are completely free for students.</p>
+          </div>
+        </div>
+
+        <div class="faq-item border border-gray-200 rounded-lg overflow-hidden shadow-sm">
+          <button class="faq-question w-full text-left p-4 bg-white hover:bg-indigo-50 transition flex justify-between items-center font-medium">
+            How often is scholarship info updated?
+            <span class="faq-icon text-indigo-500">+</span>
+          </button>
+          <div class="faq-answer bg-white text-gray-700">
+            <p>We update scholarship information weekly to ensure accuracy and reliability.</p>
+          </div>
+        </div>
+
+        <div class="faq-item border border-gray-200 rounded-lg overflow-hidden shadow-sm">
+          <button class="faq-question w-full text-left p-4 bg-white hover:bg-indigo-50 transition flex justify-between items-center font-medium">
+            Can I get AI help for other academic tasks?
+            <span class="faq-icon text-indigo-500">+</span>
+          </button>
+          <div class="faq-answer bg-white text-gray-700">
+            <p>Yes! Our AI assistant can guide you in research, scholarship queries, and basic learning help.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- JavaScript -->
+  <script>
+    // FAQ toggle
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach(item => {
+      const question = item.querySelector('.faq-question');
+      const answer = item.querySelector('.faq-answer');
+      const icon = item.querySelector('.faq-icon');
+
+      question.addEventListener('click', () => {
+        const isActive = answer.classList.contains('faq-active');
+        document.querySelectorAll('.faq-answer').forEach(ans => ans.classList.remove('faq-active'));
+        document.querySelectorAll('.faq-icon').forEach(ic => ic.textContent = '+');
+        if (!isActive) {
+          answer.classList.add('faq-active');
+          icon.textContent = '−';
+        }
+      });
+    });
+
+    // Scroll animation
+    const scrollItems = document.querySelectorAll('.scroll-item');
+    const scrollAnimation = () => {
+      const triggerBottom = window.innerHeight / 5 * 4;
+      scrollItems.forEach(item => {
+        const itemTop = item.getBoundingClientRect().top;
+        if(itemTop < triggerBottom) {
+          item.classList.add('active');
+        }
+      });
+    };
+    window.addEventListener('scroll', scrollAnimation);
+    window.addEventListener('load', scrollAnimation);
+  </script>
+
+</body>
+</html>

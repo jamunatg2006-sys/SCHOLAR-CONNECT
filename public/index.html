@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to SCHOLAR CONNECT</title>
+     <link rel="icon" type="image/png" href="images\logo.jpg">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #fff;
+            background: #1c1c1e;
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(10, 89, 232, 0.15), transparent 30%),
+                radial-gradient(circle at 80% 70%, rgba(200, 80, 192, 0.15), transparent 30%);
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            max-width: 800px;
+        }
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .logo i {
+            color: #0a59e8;
+        }
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        p {
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin-bottom: 2.5rem;
+            color: #a7a7a7;
+        }
+        .button-group {
+            display: flex;
+            gap: 1rem;
+        }
+        .btn {
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .btn-primary {
+            background-color: #0a59e8;
+            color: #fff;
+        }
+        .btn-primary:hover {
+            background-color: #084ac3;
+            transform: translateY(-3px);
+        }
+        .btn-secondary {
+            background-color: transparent;
+            color: #fff;
+            border: 2px solid #fff;
+        }
+        .btn-secondary:hover {
+            background-color: #fff;
+            color: #1c1c1e;
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <i class="fas fa-key"></i>
+            <span>SCHOLAR CONNECT</span>
+        </div>
+        <h1>Unlock Your Future. Fund Your Education.</h1>
+        <p>
+            Welcome to SCHOLAR CONNECT, the ultimate platform for students seeking financial aid. Discover thousands of scholarships, find part-time jobs, and get AI-powered assistance to make your educational dreams a reality.
+        </p>
+        <div class="button-group">
+            <a href="login.html" class="btn btn-primary">Login</a>
+            <a href="register.html" class="btn btn-secondary">Register</a>
+        </div>
+    </div>
+
+    <!-- <script>
+        // If a user is already logged in, redirect them straight to the dashboard
+        (function(){
+            const token = localStorage.getItem('jwtToken') || sessionStorage.getItem('jwtToken');
+            if (token) {
+                window.location.href = 'dashboard.html';
+            }
+        })();
+    </script> -->
+</body>
+</html>

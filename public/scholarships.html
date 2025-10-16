@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Scholarships in India |SCHOLAR CONNECT</title>
+  <link rel="icon" type="image/png" href="images\favicon.png">
+   <link rel="icon" type="image/png" href="images\logo.jpg">
+
+  <!-- ✅ Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* 👇 Fade-in + slide-up scroll animation */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    /* Professional color scheme */
+    .bg-primary { background-color: #1e3a8a; }
+    .bg-secondary { background-color: #0f172a; }
+    .bg-accent { background-color: #3b82f6; }
+    .text-primary { color: #1e3a8a; }
+    .text-secondary { color: #0f172a; }
+    .text-accent { color: #3b82f6; }
+    
+    /* Custom gradient */
+    .gradient-bg {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    }
+    
+    /* Card hover effects */
+    .scholarship-card {
+      transition: all 0.3s ease;
+    }
+    .scholarship-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    
+    /* Filter sidebar styling */
+    .filter-sidebar {
+      transition: all 0.3s ease;
+    }
+    
+    /* Loading spinner */
+    .spinner {
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      border-left-color: #3b82f6;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    /* Status badges */
+    .status-active {
+      background-color: #dcfce7;
+      color: #166534;
+    }
+    .status-upcoming {
+      background-color: #fef3c7;
+      color: #92400e;
+    }
+    .status-expired {
+      background-color: #fee2e2;
+      color: #991b1b;
+    }
+    
+    /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 100;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .modal.active {
+      display: flex;
+    }
+    
+    .modal-content {
+      background: white;
+      border-radius: 1rem;
+      width: 90%;
+      max-width: 700px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 2rem;
+      position: relative;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .filter-sidebar {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 80%;
+        height: 100vh;
+        z-index: 50;
+        background: white;
+        overflow-y: auto;
+        padding: 1.5rem;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      }
+      
+      .filter-sidebar.active {
+        left: 0;
+      }
+      
+      .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 40;
+      }
+      
+      .overlay.active {
+        display: block;
+      }
+      
+      .modal-content {
+        width: 95%;
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body class="gradient-bg text-slate-800 antialiased">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 backdrop-blur bg-white/90 border-b border-slate-200 shadow-sm">
+    <div class="max-w-6xl mx-auto px-6 py-4">
+      <div class="flex flex-col sm:flex-row justify-between items-center">
+        <div class="text-center sm:text-left mb-4 sm:mb-0">
+          <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-primary">
+            <i class="fas fa-graduation-cap mr-2 text-accent"></i>Scholarships in India
+          </h1>
+          <p class="text-sm text-slate-600 mt-1">
+            "Financial aid for your educational journey — find the perfect scholarship."
+          </p>
+        </div>
+        <div class="flex items-center space-x-4">
+          <button id="filterToggle" class="bg-primary hover:bg-secondary text-white px-4 py-2 rounded-lg flex items-center transition-colors">
+            <i class="fas fa-filter mr-2"></i> Filter Scholarships
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="max-w-6xl mx-auto px-6 py-12">
+    <div class="text-center">
+      <h2 class="text-4xl font-bold text-secondary mb-4">Discover Scholarships for Indian Students</h2>
+      <p class="text-lg text-slate-600 max-w-2xl mx-auto">Find government and private scholarships to fund your education. Updated regularly with new opportunities and expired scholarships removed.</p>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="max-w-6xl mx-auto px-6 py-6">
+    <div class="flex flex-col lg:flex-row gap-8">
+      
+      <!-- Filter Sidebar -->
+      <aside class="filter-sidebar w-full lg:w-1/4 bg-white rounded-2xl shadow-lg p-6 h-fit">
+        <div class="flex justify-between items-center mb-6">
+          <h3 class="text-xl font-bold text-secondary">Filter Scholarships</h3>
+          <button id="closeFilters" class="lg:hidden text-slate-500 hover:text-slate-700">
+            <i class="fas fa-times text-xl"></i>
+          </button>
+        </div>
+        
+        <!-- Search -->
+        <div class="mb-6">
+          <label class="block text-sm font-medium text-slate-700 mb-2">Search</label>
+          <input type="text" id="searchInput" placeholder="Search scholarships..." class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-accent">
+        </div>
+        
+        <!-- Scholarship Type Filter -->
+        <div class="mb-6">
+          <label class="block text-sm font-medium text-slate-700 mb-2">Scholarship Type</label>
+          <select id="typeFilter" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-accent">
+            <option value="all">All Types</option>
+            <option value="government">Government</option>
+            <option value="private">Private</option>
+            <option value="merit">Merit-Based</option>
+            <option value="need">Need-Based</option>
+          </select>
+        </div>
+        
+        <!-- Education Level Filter -->
+        <div class="mb-6">
+          <label class="block text-sm font-medium text-slate-700 mb-2">Education Level</label>
+          <select id="levelFilter" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-accent">
+            <option value="all">All Levels</option>
+            <option value="school">School</option>
+            <option value="undergraduate">Undergraduate</option>
+            <option value="postgraduate">Postgraduate</option>
+            <option value="phd">PhD/Research</option>
+          </select>
+        </div>
+        
+        <!-- Status Filter -->
+        <div class="mb-6">
+          <label class="block text-sm font-medium text-slate-700 mb-2">Application Status</label>
+          <select id="statusFilter" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-accent">
+            <option value="all">All Status</option>
+            <option value="active">Active</option>
+            <option value="upcoming">Upcoming</option>
+            <option value="expired">Expired</option>
+          </select>
+        </div>
+        
+        <!-- Amount Filter -->
+        <div class="mb-6">
+          <label class="block text-sm font-medium text-slate-700 mb-2">Scholarship Amount</label>
+          <select id="amountFilter" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-accent">
+            <option value="all">Any Amount</option>
+            <option value="small">Up to ₹50,000</option>
+            <option value="medium">₹50,000 - ₹2,00,000</option>
+            <option value="large">Above ₹2,00,000</option>
+            <option value="full">Full Tuition</option>
+          </select>
+        </div>
+        
+        <!-- Reset Filters -->
+        <button id="resetFilters" class="w-full bg-slate-200 hover:bg-slate-300 text-slate-700 py-2 rounded-lg font-medium transition-colors">
+          Reset Filters
+        </button>
+      </aside>
+      
+      <!-- Mobile Overlay -->
+      <div id="overlay" class="overlay"></div>
+      
+      <!-- Scholarships Grid -->
+      <section class="w-full lg:w-3/4">
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-2xl font-bold text-secondary">
+            <span id="scholarshipCount">0</span> Scholarships Available
+          </h2>
+          <div class="flex items-center space-x-2">
+            <span class="text-sm text-slate-600">Sort by:</span>
+            <select id="sortBy" class="px-3 py-1 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-accent focus:border-accent">
+              <option value="deadline">Deadline</option>
+              <option value="amount">Amount</option>
+              <option value="newest">Newest</option>
+              <option value="popularity">Popularity</option>
+            </select>
+          </div>
+        </div>
+        
+        <!-- Status Legend -->
+        <div class="flex flex-wrap gap-4 mb-6">
+          <div class="flex items-center">
+            <div class="w-3 h-3 rounded-full bg-green-500 mr-2"></div>
+            <span class="text-sm text-slate-600">Active</span>
+          </div>
+          <div class="flex items-center">
+            <div class="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
+            <span class="text-sm text-slate-600">Upcoming</span>
+          </div>
+          <div class="flex items-center">
+            <div class="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
+            <span class="text-sm text-slate-600">Expired</span>
+          </div>
+        </div>
+        
+        <!-- Loading Spinner -->
+        <div id="loadingSpinner" class="spinner my-12"></div>
+        
+        <!-- Scholarships Container -->
+        <div id="scholarshipsContainer" class="grid grid-cols-1 gap-6">
+          <!-- Scholarships will be dynamically inserted here -->
+        </div>
+        
+        <!-- No Results Message -->
+        <div id="noResults" class="hidden text-center py-12">
+          <i class="fas fa-search text-6xl text-slate-300 mb-4"></i>
+          <h3 class="text-xl font-bold text-slate-500 mb-2">No scholarships found</h3>
+          <p class="text-slate-500">Try adjusting your filters or search terms</p>
+        </div>
+        
+        <!-- Load More Button -->
+        <div id="loadMoreContainer" class="text-center mt-8 hidden">
+          <button id="loadMore" class="bg-primary hover:bg-secondary text-white px-6 py-3 rounded-lg font-medium transition-colors">
+            Load More Scholarships
+          </button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Scholarship Details Modal -->
+  <div id="scholarshipModal" class="modal">
+    <div class="modal-content">
+      <button id="closeModal" class="absolute top-4 right-4 text-slate-500 hover:text-slate-700">
+        <i class="fas fa-times text-xl"></i>
+      </button>
+      
+      <div id="modalContent">
+        <!-- Modal content will be dynamically inserted here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA Section -->
+  <section class="max-w-6xl mx-auto px-6 py-16">
+    <div class="bg-gradient-to-r from-primary to-secondary text-blue rounded-2xl p-10 text-center">
+      <h2 class="text-3xl font-bold mb-4">Need Help With Your Scholarship Application?</h2>
+      <p class="mb-6 max-w-2xl mx-auto text-lg">Our team of experts can guide you through the application process and help you maximize your chances of receiving financial aid.</p>
+      <div class="flex flex-col sm:flex-row justify-center gap-4">
+        <button class="bg-white text-primary hover:bg-slate-100 font-bold px-8 py-3 rounded-lg transition-colors">
+          Get Application Help
+        </button>
+        <button class="bg-transparent border-2 border-white hover:bg-white/10 font-bold px-8 py-3 rounded-lg transition-colors">
+          Sign Up for Alerts
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="mt-8 border-t border-slate-200 bg-white">
+    <div class="max-w-6xl mx-auto px-6 py-8">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="mb-4 md:mb-0">
+          <h3 class="text-lg font-bold text-primary">Qubit Fund</h3>
+          <p class="text-sm text-slate-600">Empowering students through financial aid.</p>
+        </div>
+        <div class="flex space-x-6">
+          <a href="#" class="text-slate-600 hover:text-accent">
+            <i class="fab fa-twitter text-lg"></i>
+          </a>
+          <a href="#" class="text-slate-600 hover:text-accent">
+            <i class="fab fa-linkedin text-lg"></i>
+          </a>
+          <a href="#" class="text-slate-600 hover:text-accent">
+            <i class="fab fa-instagram text-lg"></i>
+          </a>
+        </div>
+      </div>
+      <div class="mt-6 text-center text-sm text-slate-500">
+        © 2025 Qubit Fund • All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Scholarship data structure
+    let scholarships = [];
+    let filteredScholarships = [];
+    let displayedScholarships = [];
+    const scholarshipsPerPage = 6;
+    let currentPage = 1;
+    
+    // DOM Elements
+    const scholarshipsContainer = document.getElementById('scholarshipsContainer');
+    const loadingSpinner = document.getElementById('loadingSpinner');
+    const noResults = document.getElementById('noResults');
+    const loadMoreContainer = document.getElementById('loadMoreContainer');
+    const loadMoreButton = document.getElementById('loadMore');
+    const scholarshipCount = document.getElementById('scholarshipCount');
+    const filterToggle = document.getElementById('filterToggle');
+    const closeFilters = document.getElementById('closeFilters');
+    const overlay = document.getElementById('overlay');
+    const filterSidebar = document.querySelector('.filter-sidebar');
+    const scholarshipModal = document.getElementById('scholarshipModal');
+    const closeModal = document.getElementById('closeModal');
+    const modalContent = document.getElementById('modalContent');
+    
+    // Filter elements
+    const searchInput = document.getElementById('searchInput');
+    const typeFilter = document.getElementById('typeFilter');
+    const levelFilter = document.getElementById('levelFilter');
+    const statusFilter = document.getElementById('statusFilter');
+    const amountFilter = document.getElementById('amountFilter');
+    const sortBy = document.getElementById('sortBy');
+    const resetFilters = document.getElementById('resetFilters');
+    
+    // Initialize the page
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load scholarships from API
+      loadScholarships();
+      
+      // Set up event listeners
+      setupEventListeners();
+      
+      // Set up auto-refresh for scholarships (every 24 hours)
+      setInterval(loadScholarships, 24 * 60 * 60 * 1000);
+    });
+    
+    // Load scholarships from API
+    async function loadScholarships() {
+      try {
+        // In a real implementation, this would be an actual API call
+        // For demonstration, we'll use a simulated API response
+        loadingSpinner.classList.remove('hidden');
+        
+        // Simulate API delay
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        
+        // Sample scholarship data (in a real app, this would come from an API)
+        scholarships = [
+          {
+            id: 1,
+            title: "National Scholarship Portal (NSP)",
+            provider: "Government of India",
+            type: "government",
+            level: "undergraduate",
+            amount: "₹35,000 per year",
+            amountType: "medium",
+            deadline: "2025-03-31",
+            status: "active",
+            description: "Central sector scheme for college and university students with family income less than ₹8 lakhs per annum.",
+            eligibility: "Students pursuing higher education with family income less than ₹8 lakhs per annum. Minimum 60% marks in previous qualifying examination.",
+            benefits: "Financial assistance for tuition fees and maintenance allowance.",
+            applicationProcess: "Online application through National Scholarship Portal with required documents.",
+            website: "https://scholarships.gov.in",
+            popularity: 95,
+            lastUpdated: "2025-01-15"
+          },
+          {
+            id: 2,
+            title: "Kishore Vaigyanik Protsahan Yojana (KVPY)",
+            provider: "Department of Science and Technology",
+            type: "government",
+            level: "undergraduate",
+            amount: "₹5,000-₹7,000 per month + contingency grant",
+            amountType: "medium",
+            deadline: "2025-07-15",
+            status: "upcoming",
+            description: "Fellowship program to encourage students to pursue research careers in basic sciences.",
+            eligibility: "Indian nationals studying in Class 11 to 1st year of undergraduate program in Basic Sciences. Minimum 75% marks in Class 10 and 12.",
+            benefits: "Monthly fellowship and annual contingency grant for entire duration of the course.",
+            applicationProcess: "Online application through KVPY website followed by aptitude test and interview.",
+            website: "https://www.indiascienceandtechnology.gov.in/nurturing-minds/scholarships/school/kishore-vaigyanik-protsahan-yojana-kvpy",
+            popularity: 88,
+            lastUpdated: "2025-01-10"
+          },
+          {
+            id: 3,
+            title: "Aditya Birla Scholarship",
+            provider: "Aditya Birla Group",
+            type: "private",
+            level: "postgraduate",
+            amount: "₹1,80,000 per year",
+            amountType: "large",
+            deadline: "2025-02-28",
+            status: "active",
+            description: "Merit-based scholarship for students pursuing postgraduate studies at premier institutes in India.",
+            eligibility: "Indian citizens with excellent academic record. Students from IITs, IIMs, BITS, NITs, and other premier institutes.",
+            benefits: "Financial assistance covering tuition fees and other academic expenses.",
+            applicationProcess: "Online application with academic transcripts and recommendation letters.",
+            website: "https://www.adityabirlascholars.net/the-scholarship/",
+            popularity: 85,
+            lastUpdated: "2025-01-05"
+          },
+          {
+            id: 4,
+            title: "Prime Minister's Scholarship Scheme",
+            provider: "Ministry of Home Affairs",
+            type: "government",
+            level: "undergraduate",
+            amount: "₹2,500-₹3,000 per month",
+            amountType: "small",
+            deadline: "2024-12-31",
+            status: "expired",
+            description: "Scholarship for wards of ex-servicemen/widows for professional degree courses.",
+            eligibility: "Wards of ex-servicemen/widows pursuing professional courses in engineering, medicine, MBA, etc.",
+            benefits: "Monthly scholarship for the duration of the course.",
+            applicationProcess: "Online application through Kendriya Sainik Board website.",
+            website: "https://www.desw.gov.in/prime-ministers-scholarship-scheme-pmss",
+            popularity: 75,
+            lastUpdated: "2024-11-20"
+          },
+          {id: 5,
+            title: "Narotam Sekhsaria Scholarship",
+            provider: "Narotam Sekhsaria Foundation",
+            type: "private",
+            level: "postgraduate",
+            amount: "Up to ₹20,00,000",
+            amountType: "full",
+            deadline: "2025-03-20",
+            status: "active",
+            description: "Interest-free loan scholarship for Indian students pursuing postgraduate studies at prestigious institutions in India and abroad.",
+            eligibility: "Indian nationals under 30 years of age with consistently outstanding academic record.",
+            benefits: "Interest-free loan scholarship covering tuition fees, living expenses, and other costs.",
+            applicationProcess: "Online application with academic records, statement of purpose, and letters of recommendation.",
+            website: "http://pg.nsfoundation.co.in/",
+            popularity: 90,
+            lastUpdated: "2025-01-12"
+          },
+          {
+            id: 6,
+            title: "Swami Vivekananda Merit Cum Means Scholarship",
+            provider: "Government of West Bengal",
+            type: "government",
+            level: "undergraduate",
+            amount: "₹1,000-₹5,000 per month",
+            amountType: "small",
+            deadline: "2025-04-15",
+            status: "upcoming",
+            description: "Scholarship for meritorious students from minority communities in West Bengal.",
+            eligibility: "Students from minority communities (Muslim, Christian, Sikh, Buddhist, Parsi, Jain) with family income less than ₹2.5 lakhs per annum.",
+            benefits: "Monthly scholarship for pursuing professional and technical courses.",
+            applicationProcess: "Online application through state scholarship portal with required documents.",
+            website: "https://svmcm.wb.gov.in/",
+            popularity: 70,
+            lastUpdated: "2025-01-08"
+          },
+          {
+            id: 7,
+            title: "JN Tata Endowment Scholarship",
+            provider: "JN Tata Endowment",
+            type: "private",
+            level: "postgraduate",
+            amount: "₹1,50,000-₹10,00,000",
+            amountType: "large",
+            deadline: "2025-03-15",
+            status: "active",
+            description: "Loan scholarship for Indian nationals for higher studies abroad.",
+            eligibility: "Indian nationals with consistent outstanding academic record and admission to renowned universities abroad.",
+            benefits: "Loan scholarship at nominal interest rate, with possibility of converting to gift based on academic performance.",
+            applicationProcess: "Online application followed by interview for shortlisted candidates.",
+            website: "https://jntataendowment.org/",
+            popularity: 92,
+            lastUpdated: "2025-01-14"
+          },
+          {
+            id: 8,
+            title: "Post Matric Scholarship for SC Students",
+            provider: "Ministry of Social Justice and Empowerment",
+            type: "government",
+            level: "undergraduate",
+            amount: "Full tuition fees + maintenance allowance",
+            amountType: "full",
+            deadline: "2025-02-20",
+            status: "active",
+            description: "Scholarship for Scheduled Caste students pursuing post-matriculation/post-secondary education.",
+            eligibility: "SC students whose parents/guardians' income does not exceed ₹2.5 lakhs per annum.",
+            benefits: "Full tuition fees and maintenance allowance for hostellers and day scholars.",
+            applicationProcess: "Online application through National Scholarship Portal.",
+            website: "https://scholarships.gov.in",
+            popularity: 80,
+            lastUpdated: "2025-01-07"
+          },
+          {
+            id: 9,
+            title: "L'Oreal India For Young Women in Science Scholarship",
+            provider: "L'Oreal India",
+            type: "private",
+            level: "undergraduate",
+            amount: "₹2,50,000",
+            amountType: "large",
+            deadline: "2025-05-30",
+            status: "upcoming",
+            description: "Scholarship for young women pursuing education in science fields.",
+            eligibility: "Female students from economically weaker sections pursuing B.Sc./B.Tech in science streams.",
+            benefits: "Financial assistance for entire duration of the course.",
+            applicationProcess: "Online application with academic records and statement of purpose.",
+            website: "https://www.loreal.com/en/india/articles/commitments/the-india-for-young-women-in-science-scholarship-programme/",
+            popularity: 78,
+            lastUpdated: "2025-01-09"
+          },
+          {
+            id: 10,
+            title: "AICTE Pragati Scholarship for Girls",
+            provider: "AICTE, Government of India",
+            type: "government",
+            level: "undergraduate",
+            amount: "₹50,000 per year",
+            amountType: "medium",
+            deadline: "2024-11-30",
+            status: "expired",
+            description: "Scholarship for girl students pursuing technical education.",
+            eligibility: "Girl students admitted to AICTE approved institutions with family income less than ₹8 lakhs per annum.",
+            benefits: "Tuition fee reimbursement and incidentals each year.",
+            applicationProcess: "Online application through AICTE portal.",
+            website: "https://www.aicte-india.org",
+            popularity: 82,
+            lastUpdated: "2024-10-25"
+          }
+        ];
+        
+        // Filter out expired scholarships based on current date
+        const currentDate = new Date();
+        scholarships = scholarships.filter(scholarship => {
+          if (scholarship.status === "expired") {
+            const deadline = new Date(scholarship.deadline);
+            // Keep expired scholarships for 30 days after deadline for reference
+            const expiryDate = new Date(deadline);
+            expiryDate.setDate(expiryDate.getDate() + 30);
+            return currentDate <= expiryDate;
+          }
+          return true;
+        });
+        
+        // Initialize filtered scholarships
+        filteredScholarships = [...scholarships];
+        
+        // Apply initial sorting
+        applySorting();
+        
+        // Display first page of scholarships
+        displayScholarships();
+        
+        loadingSpinner.classList.add('hidden');
+        
+      } catch (error) {
+        console.error('Error loading scholarships:', error);
+        loadingSpinner.classList.add('hidden');
+        scholarshipsContainer.innerHTML = `
+          <div class="col-span-full text-center py-12">
+            <i class="fas fa-exclamation-triangle text-6xl text-slate-300 mb-4"></i>
+            <h3 class="text-xl font-bold text-slate-500 mb-2">Failed to load scholarships</h3>
+            <p class="text-slate-500">Please try again later</p>
+          </div>
+        `;
+      }
+    }
+    
+    // Set up event listeners
+    function setupEventListeners() {
+      // Filter toggle for mobile
+      filterToggle.addEventListener('click', toggleFilters);
+      closeFilters.addEventListener('click', toggleFilters);
+      overlay.addEventListener('click', toggleFilters);
+      
+      // Filter change events
+      searchInput.addEventListener('input', applyFilters);
+      typeFilter.addEventListener('change', applyFilters);
+      levelFilter.addEventListener('change', applyFilters);
+      statusFilter.addEventListener('change', applyFilters);
+      amountFilter.addEventListener('change', applyFilters);
+      sortBy.addEventListener('change', applySorting);
+      
+      // Reset filters
+      resetFilters.addEventListener('click', resetAllFilters);
+      
+      // Load more scholarships
+      loadMoreButton.addEventListener('click', loadMoreScholarships);
+      
+      // Modal close
+      closeModal.addEventListener('click', closeScholarshipModal);
+      scholarshipModal.addEventListener('click', function(e) {
+        if (e.target === scholarshipModal) {
+          closeScholarshipModal();
+        }
+      });
+    }
+    
+    // Toggle filter sidebar on mobile
+    function toggleFilters() {
+      filterSidebar.classList.toggle('active');
+      overlay.classList.toggle('active');
+      document.body.style.overflow = filterSidebar.classList.contains('active') ? 'hidden' : '';
+    }
+    
+    // Apply all filters
+    function applyFilters() {
+      const searchTerm = searchInput.value.toLowerCase();
+      const type = typeFilter.value;
+      const level = levelFilter.value;
+      const status = statusFilter.value;
+      const amount = amountFilter.value;
+      
+      filteredScholarships = scholarships.filter(scholarship => {
+        // Search filter
+        if (searchTerm && !scholarship.title.toLowerCase().includes(searchTerm) && 
+            !scholarship.description.toLowerCase().includes(searchTerm) &&
+            !scholarship.provider.toLowerCase().includes(searchTerm)) {
+          return false;
+        }
+        
+        // Type filter
+        if (type !== 'all' && scholarship.type !== type) {
+          return false;
+        }
+        
+        // Level filter
+        if (level !== 'all' && scholarship.level !== level) {
+          return false;
+        }
+        
+        // Status filter
+        if (status !== 'all' && scholarship.status !== status) {
+          return false;
+        }
+        
+        // Amount filter
+        if (amount !== 'all' && scholarship.amountType !== amount) {
+          return false;
+        }
+        
+        return true;
+      });
+      
+      // Apply sorting
+      applySorting();
+      
+      // Reset to first page
+      currentPage = 1;
+      
+      // Display scholarships
+      displayScholarships();
+    }
+    
+    // Apply sorting to filtered scholarships
+    function applySorting() {
+      const sortValue = sortBy.value;
+      
+      switch(sortValue) {
+        case 'amount':
+          // Sort by amount (simplified - in real app would parse amounts)
+          filteredScholarships.sort((a, b) => {
+            const amountOrder = { 'small': 1, 'medium': 2, 'large': 3, 'full': 4 };
+            return amountOrder[b.amountType] - amountOrder[a.amountType];
+          });
+          break;
+        case 'newest':
+          // Sort by last updated date (newest first)
+          filteredScholarships.sort((a, b) => new Date(b.lastUpdated) - new Date(a.lastUpdated));
+          break;
+        case 'popularity':
+          // Sort by popularity (descending)
+          filteredScholarships.sort((a, b) => b.popularity - a.popularity);
+          break;
+        case 'deadline':
+        default:
+          // Sort by deadline (closest first)
+          filteredScholarships.sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
+          break;
+      }
+    }
+    
+    // Reset all filters
+    function resetAllFilters() {
+      searchInput.value = '';
+      typeFilter.value = 'all';
+      levelFilter.value = 'all';
+      statusFilter.value = 'all';
+      amountFilter.value = 'all';
+      sortBy.value = 'deadline';
+      
+      applyFilters();
+    }
+    
+    // Display scholarships based on current page
+    function displayScholarships() {
+      // Calculate scholarships to display
+      const startIndex = 0;
+      const endIndex = currentPage * scholarshipsPerPage;
+      displayedScholarships = filteredScholarships.slice(startIndex, endIndex);
+      
+      // Update scholarship count
+      scholarshipCount.textContent = filteredScholarships.length;
+      
+      // Clear container
+      scholarshipsContainer.innerHTML = '';
+      
+      // Show/hide no results message
+      if (filteredScholarships.length === 0) {
+        noResults.classList.remove('hidden');
+        loadMoreContainer.classList.add('hidden');
+      } else {
+        noResults.classList.add('hidden');
+        
+        // Show/hide load more button
+        if (filteredScholarships.length > displayedScholarships.length) {
+          loadMoreContainer.classList.remove('hidden');
+        } else {
+          loadMoreContainer.classList.add('hidden');
+        }
+        
+        // Display scholarships
+        displayedScholarships.forEach(scholarship => {
+          const scholarshipElement = createScholarshipElement(scholarship);
+          scholarshipsContainer.appendChild(scholarshipElement);
+        });
+      }
+      
+      // Trigger reveal animations
+      setTimeout(() => {
+        const reveals = document.querySelectorAll('.reveal');
+        const trigger = window.innerHeight * 0.85;
+        
+        reveals.forEach(el => {
+          const top = el.getBoundingClientRect().top;
+          if (top < trigger) el.classList.add('active');
+        });
+      }, 100);
+    }
+    
+    // Create scholarship card element
+    function createScholarshipElement(scholarship) {
+      const scholarshipElement = document.createElement('div');
+      scholarshipElement.className = 'scholarship-card bg-white rounded-2xl shadow-lg p-6 border border-slate-100 reveal';
+      
+      // Status badge
+      let statusBadgeClass = 'status-active';
+      let statusText = 'Active';
+      if (scholarship.status === 'upcoming') {
+        statusBadgeClass = 'status-upcoming';
+        statusText = 'Upcoming';
+      } else if (scholarship.status === 'expired') {
+        statusBadgeClass = 'status-expired';
+        statusText = 'Expired';
+      }
+      
+      // Type badge
+      let typeBadgeColor = 'bg-blue-100 text-primary';
+      if (scholarship.type === 'private') typeBadgeColor = 'bg-purple-100 text-purple-800';
+      if (scholarship.type === 'merit') typeBadgeColor = 'bg-green-100 text-green-800';
+      if (scholarship.type === 'need') typeBadgeColor = 'bg-orange-100 text-orange-800';
+      
+      scholarshipElement.innerHTML = `
+        <div class="flex justify-between items-start mb-4">
+          <h3 class="text-xl font-bold text-secondary">${scholarship.title}</h3>
+          <span class="${statusBadgeClass} px-3 py-1 rounded-full text-sm font-medium">${statusText}</span>
+        </div>
+        
+        <div class="flex items-center mb-4">
+          <i class="fas fa-university text-accent mr-2"></i>
+          <span class="text-slate-700 font-medium">${scholarship.provider}</span>
+        </div>
+        
+        <p class="text-slate-600 mb-4 text-sm">${scholarship.description}</p>
+        
+        <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+          <div class="flex items-center">
+            <i class="fas fa-rupee-sign text-accent mr-2"></i>
+            <span class="font-medium">${scholarship.amount}</span>
+          </div>
+          <div class="flex items-center">
+            <i class="fas fa-calendar-alt text-accent mr-2"></i>
+            <span>${formatDate(scholarship.deadline)}</span>
+          </div>
+          <div class="flex items-center">
+            <i class="fas fa-graduation-cap text-accent mr-2"></i>
+            <span class="capitalize">${scholarship.level}</span>
+          </div>
+          <div class="flex items-center">
+            <span class="${typeBadgeColor} px-2 py-1 rounded-full text-xs font-medium capitalize">${scholarship.type}</span>
+          </div>
+        </div>
+        
+        <div class="flex justify-between items-center mt-6">
+          <button class="get-details-btn bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors" data-scholarship-id="${scholarship.id}">
+            Get Details
+          </button>
+          <button class="apply-now-btn bg-primary hover:bg-secondary text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors" data-scholarship-website="${scholarship.website}">
+            Apply Now
+          </button>
+        </div>
+      `;
+      
+      // Add event listeners to buttons
+      const detailsBtn = scholarshipElement.querySelector('.get-details-btn');
+      detailsBtn.addEventListener('click', function() {
+        const scholarshipId = this.getAttribute('data-scholarship-id');
+        showScholarshipDetails(scholarshipId);
+      });
+      
+      const applyBtn = scholarshipElement.querySelector('.apply-now-btn');
+      applyBtn.addEventListener('click', function() {
+        const website = this.getAttribute('data-scholarship-website');
+        applyForScholarship(website);
+      });
+      
+      return scholarshipElement;
+    }
+    
+    // Format date for display
+    function formatDate(dateString) {
+      const options = { day: 'numeric', month: 'short', year: 'numeric' };
+      return new Date(dateString).toLocaleDateString('en-IN', options);
+    }
+    
+    // Show scholarship details in modal
+    function showScholarshipDetails(scholarshipId) {
+      const scholarship = scholarships.find(s => s.id == scholarshipId);
+      if (scholarship) {
+        // Status badge
+        let statusBadgeClass = 'status-active';
+        let statusText = 'Active';
+        if (scholarship.status === 'upcoming') {
+          statusBadgeClass = 'status-upcoming';
+          statusText = 'Upcoming';
+        } else if (scholarship.status === 'expired') {
+          statusBadgeClass = 'status-expired';
+          statusText = 'Expired';
+        }
+        
+        modalContent.innerHTML = `
+          <h2 class="text-2xl font-bold text-secondary mb-4">${scholarship.title}</h2>
+          
+          <div class="flex flex-wrap gap-4 mb-6">
+            <span class="${statusBadgeClass} px-3 py-1 rounded-full text-sm font-medium">${statusText}</span>
+            <span class="bg-blue-100 text-primary px-3 py-1 rounded-full text-sm font-medium capitalize">${scholarship.type}</span>
+            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium capitalize">${scholarship.level}</span>
+          </div>
+          
+          <div class="mb-6">
+            <h3 class="text-lg font-semibold text-secondary mb-2">Provider</h3>
+            <p class="text-slate-700">${scholarship.provider}</p>
+          </div>
+          
+          <div class="mb-6">
+            <h3 class="text-lg font-semibold text-secondary mb-2">Description</h3>
+            <p class="text-slate-700">${scholarship.description}</p>
+          </div>
+          
+          <div class="mb-6">
+            <h3 class="text-lg font-semibold text-secondary mb-2">Scholarship Amount</h3>
+            <p class="text-slate-700 font-medium">${scholarship.amount}</p>
+          </div>
+          
+          <div class="mb-6">
+            <h3 class="text-lg font-semibold text-secondary mb-2">Application Deadline</h3>
+            <p class="text-slate-700">${formatDate(scholarship.deadline)}</p>
+          </div>
+          
+          <div class="mb-6">
+            <h3 class="text-lg font-semibold text-secondary mb-2">Eligibility Criteria</h3>
+            <p class="text-slate-700">${scholarship.eligibility}</p>
+          </div>
+          
+          <div class="mb-6">
+            <h3 class="text-lg font-semibold text-secondary mb-2">Benefits</h3>
+            <p class="text-slate-700">${scholarship.benefits}</p>
+          </div>
+          
+          <div class="mb-6">
+            <h3 class="text-lg font-semibold text-secondary mb-2">Application Process</h3>
+            <p class="text-slate-700">${scholarship.applicationProcess}</p>
+          </div>
+          
+          <div class="flex justify-end mt-8">
+            <button class="apply-now-modal-btn bg-primary hover:bg-secondary text-white px-6 py-3 rounded-lg font-medium transition-colors" data-scholarship-website="${scholarship.website}">
+              Apply Now
+            </button>
+          </div>
+        `;
+        
+        // Add event listener to modal apply button
+        const applyModalBtn = modalContent.querySelector('.apply-now-modal-btn');
+        applyModalBtn.addEventListener('click', function() {
+          const website = this.getAttribute('data-scholarship-website');
+          applyForScholarship(website);
+        });
+        
+        // Show modal
+        scholarshipModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+    
+    // Close scholarship modal
+    function closeScholarshipModal() {
+      scholarshipModal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    
+    // Apply for scholarship (redirect to website)
+    function applyForScholarship(website) {
+      if (website) {
+        window.open(website, '_blank');
+      } else {
+        alert('Website information not available for this scholarship.');
+      }
+    }
+    
+    // Load more scholarships
+    function loadMoreScholarships() {
+      currentPage++;
+      displayScholarships();
+    }
+    
+    // Scroll reveal animation
+    const revealOnScroll = () => {
+      const reveals = document.querySelectorAll('.reveal');
+      const trigger = window.innerHeight * 0.85;
+      reveals.forEach(el => {
+        const top = el.getBoundingClientRect().top;
+        if (top < trigger) el.classList.add('active');
+      });
+    };
+    
+    window.addEventListener('scroll', revealOnScroll);
+    window.addEventListener('load', revealOnScroll);
+  </script>
+
+</body>
+</html>

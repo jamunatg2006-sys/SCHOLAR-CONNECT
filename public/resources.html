@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Perfect Part-Time Jobs | SCHOLAR CONNECT</title>
+  <link rel="icon" type="image/png" href="images\favicon.png">
+
+  <!-- ✅ Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* 👇 Fade-in + slide-up scroll animation */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    /* Professional color scheme */
+    .bg-primary { background-color: #1e3a8a; }
+    .bg-secondary { background-color: #0f172a; }
+    .bg-accent { background-color: #3b82f6; }
+    .text-primary { color: #1e3a8a; }
+    .text-secondary { color: #0f172a; }
+    .text-accent { color: #3b82f6; }
+    
+    /* Custom gradient */
+    .gradient-bg {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    }
+    
+    /* Card hover effects */
+    .job-card {
+      transition: all 0.3s ease;
+    }
+    .job-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    
+    /* Loading animation */
+    .loader {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #3b82f6;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    /* Filter transition */
+    .filter-transition {
+      transition: all 0.3s ease;
+    }
+  </style>
+</head>
+<body class="gradient-bg text-slate-800 antialiased">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 backdrop-blur bg-white/90 border-b border-slate-200 shadow-sm">
+    <div class="max-w-6xl mx-auto px-6 py-4">
+      <div class="flex flex-col sm:flex-row justify-between items-center">
+        <div class="text-center sm:text-left mb-4 sm:mb-0">
+          <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-primary">
+            <i class="fas fa-briefcase mr-2 text-accent"></i>Perfect Part-Time Jobs
+          </h1>
+          <p class="text-sm text-slate-600 mt-1">
+            "Earning and learning go hand in hand — part-time jobs are the perfect start."
+          </p>
+        </div>
+        <div class="flex items-center space-x-4">
+          <button id="filterBtn" class="bg-primary hover:bg-secondary text-white px-4 py-2 rounded-lg flex items-center transition-colors">
+            <i class="fas fa-filter mr-2"></i> Filter Jobs
+          </button>
+          <button id="addJobBtn" class="bg-accent hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center transition-colors">
+            <i class="fas fa-plus mr-2"></i> Add Job
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Filter Panel -->
+  <div id="filterPanel" class="max-w-6xl mx-auto px-6 py-4 bg-white/80 rounded-lg shadow-md mt-4 filter-transition hidden">
+    <div class="flex flex-wrap gap-4">
+      <div class="flex-1 min-w-[200px]">
+        <label class="block text-sm font-medium text-slate-700 mb-1">Job Type</label>
+        <select id="jobTypeFilter" class="w-full p-2 border border-slate-300 rounded-md">
+          <option value="all">All Types</option>
+          <option value="delivery">Delivery</option>
+          <option value="remote">Remote</option>
+          <option value="tutoring">Tutoring</option>
+          <option value="design">Design</option>
+          <option value="writing">Writing</option>
+          <option value="support">Customer Support</option>
+        </select>
+      </div>
+      <div class="flex-1 min-w-[200px]">
+        <label class="block text-sm font-medium text-slate-700 mb-1">Salary Range</label>
+        <select id="salaryFilter" class="w-full p-2 border border-slate-300 rounded-md">
+          <option value="all">All Ranges</option>
+          <option value="low">Up to ₹10,000</option>
+          <option value="medium">₹10,000 - ₹25,000</option>
+          <option value="high">₹25,000+</option>
+        </select>
+      </div>
+      <div class="flex-1 min-w-[200px]">
+        <label class="block text-sm font-medium text-slate-700 mb-1">Work Location</label>
+        <select id="locationFilter" class="w-full p-2 border border-slate-300 rounded-md">
+          <option value="all">All Locations</option>
+          <option value="remote">Remote</option>
+          <option value="onsite">On-site</option>
+          <option value="hybrid">Hybrid</option>
+        </select>
+      </div>
+      <div class="flex items-end">
+        <button id="applyFilters" class="bg-primary hover:bg-secondary text-white px-4 py-2 rounded-lg mr-2">
+          Apply Filters
+        </button>
+        <button id="clearFilters" class="bg-slate-200 hover:bg-slate-300 text-slate-700 px-4 py-2 rounded-lg">
+          Clear
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Job Modal -->
+  <div id="addJobModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-xl p-6 w-full max-w-md mx-4">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-xl font-bold text-secondary">Add New Job</h3>
+        <button id="closeModal" class="text-slate-500 hover:text-slate-700">
+          <i class="fas fa-times text-xl"></i>
+        </button>
+      </div>
+      <form id="jobForm" class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-slate-700 mb-1">Job Title</label>
+          <input type="text" id="jobTitle" class="w-full p-2 border border-slate-300 rounded-md" required>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-slate-700 mb-1">Job Type</label>
+          <select id="jobType" class="w-full p-2 border border-slate-300 rounded-md">
+            <option value="delivery">Delivery</option>
+            <option value="remote">Remote</option>
+            <option value="tutoring">Tutoring</option>
+            <option value="design">Design</option>
+            <option value="writing">Writing</option>
+            <option value="support">Customer Support</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-slate-700 mb-1">Salary Range</label>
+          <input type="text" id="jobSalary" class="w-full p-2 border border-slate-300 rounded-md" placeholder="e.g., ₹10,000 - ₹15,000" required>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-slate-700 mb-1">Requirements</label>
+          <textarea id="jobRequirements" class="w-full p-2 border border-slate-300 rounded-md" rows="3" required></textarea>
+        </div>
+        <div class="flex justify-end space-x-3 pt-4">
+          <button type="button" id="cancelJob" class="bg-slate-200 hover:bg-slate-300 text-slate-700 px-4 py-2 rounded-lg">
+            Cancel
+          </button>
+          <button type="submit" class="bg-primary hover:bg-secondary text-white px-4 py-2 rounded-lg">
+            Add Job
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="max-w-6xl mx-auto px-6 py-12">
+    <div class="text-center">
+      <h2 class="text-4xl font-bold text-secondary mb-4">Find Your Perfect Part-Time Job</h2>
+      <p class="text-lg text-slate-600 max-w-2xl mx-auto">Balancing studies and work has never been easier. Explore our curated list of part-time opportunities designed specifically for students.</p>
+      
+      <!-- Search Bar -->
+      <div class="mt-8 max-w-xl mx-auto">
+        <div class="relative">
+          <input type="text" id="searchInput" placeholder="Search for jobs, skills, or companies..." class="w-full p-4 pl-12 pr-10 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent">
+          <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400"></i>
+          <button id="searchBtn" class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-accent hover:bg-blue-700 text-white p-2 rounded-md">
+            <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="max-w-6xl mx-auto px-6 py-8">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+      <div class="bg-white/70 p-4 rounded-lg shadow-sm">
+        <p class="text-2xl font-bold text-primary" id="jobCount">6+</p>
+        <p class="text-sm text-slate-600">Job Categories</p>
+      </div>
+      <div class="bg-white/70 p-4 rounded-lg shadow-sm">
+        <p class="text-2xl font-bold text-primary">100%</p>
+        <p class="text-sm text-slate-600">Verified Companies</p>
+      </div>
+      <div class="bg-white/70 p-4 rounded-lg shadow-sm">
+        <p class="text-2xl font-bold text-primary">Flexible</p>
+        <p class="text-sm text-slate-600">Working Hours</p>
+      </div>
+      <div class="bg-white/70 p-4 rounded-lg shadow-sm">
+        <p class="text-2xl font-bold text-primary">Student</p>
+        <p class="text-sm text-slate-600">Friendly</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="max-w-6xl mx-auto px-6 py-6">
+    <div class="flex justify-between items-center mb-6">
+      <h3 class="text-xl font-semibold text-secondary">Available Jobs</h3>
+      <div class="text-sm text-slate-600">
+        <span id="filterStatus">Showing all jobs</span>
+      </div>
+    </div>
+    
+    <div id="loadingIndicator" class="loader hidden"></div>
+    
+    <section id="jobsContainer" class="space-y-12">
+      <!-- Jobs will be dynamically loaded here -->
+    </section>
+    
+    <div id="noResults" class="text-center py-12 hidden">
+      <i class="fas fa-search text-5xl text-slate-300 mb-4"></i>
+      <h3 class="text-xl font-semibold text-slate-600 mb-2">No jobs found</h3>
+      <p class="text-slate-500">Try adjusting your filters or search terms</p>
+    </div>
+  </main>
+
+  <!-- CTA Section -->
+  <section class="max-w-6xl mx-auto px-6 py-16">
+    <div class="bg-gradient-to-r from-primary to-secondary text-white rounded-2xl p-10 text-center">
+      <h2 class="text-3xl font-bold mb-4">Ready to Start Your Part-Time Journey?</h2>
+      <p class="mb-6 max-w-2xl mx-auto text-lg">Join thousands of students who are balancing work and studies successfully. Get matched with the perfect part-time job for your skills and schedule.</p>
+      <div class="flex flex-col sm:flex-row justify-center gap-4">
+        <button class="bg-white text-primary hover:bg-slate-100 font-bold px-8 py-3 rounded-lg transition-colors">
+          Browse All Jobs
+        </button>
+        <button class="bg-transparent border-2 border-white hover:bg-white/10 font-bold px-8 py-3 rounded-lg transition-colors">
+          Sign Up for Alerts
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="mt-8 border-t border-slate-200 bg-white">
+    <div class="max-w-6xl mx-auto px-6 py-8">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="mb-4 md:mb-0">
+          <h3 class="text-lg font-bold text-primary">Qubit Fund</h3>
+          <p class="text-sm text-slate-600">Empowering students through opportunities.</p>
+        </div>
+        <div class="flex space-x-6">
+          <a href="#" class="text-slate-600 hover:text-accent">
+            <i class="fab fa-twitter text-lg"></i>
+          </a>
+          <a href="#" class="text-slate-600 hover:text-accent">
+            <i class="fab fa-linkedin text-lg"></i>
+          </a>
+          <a href="#" class="text-slate-600 hover:text-accent">
+            <i class="fab fa-instagram text-lg"></i>
+          </a>
+        </div>
+      </div>
+      <div class="mt-6 text-center text-sm text-slate-500">
+        © 2025 Qubit Fund • All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Job data structure
+    const jobData = [
+      {
+        id: 1,
+        title: "Delivery Executive",
+        type: "delivery",
+        salary: "₹30,000–₹35,000/month",
+        salaryRange: "high",
+        location: "onsite",
+        requirements: ["2-wheeler with valid license", "Aadhaar card and other documents", "Smartphone with internet connection"],
+        platforms: "Swiggy, Zomato, Blinkit, Zepto",
+        description: "Part-time delivery work with flexible shifts",
+        icon: "🏆",
+        badge: "High Demand"
+      },
+      {
+        id: 2,
+        title: "Freelance Translator",
+        type: "remote",
+        salary: "₹1,000–₹15,000/project",
+        salaryRange: "medium",
+        location: "remote",
+        requirements: ["Translate text for AI tools", "Annotate and label data", "Proofread translated content"],
+        platforms: "LinkedIn, Indeed, Glassdoor",
+        description: "Remote flexible translation work",
+        icon: "👩‍🔬",
+        badge: "Remote"
+      },
+      {
+        id: 3,
+        title: "Online Tutor",
+        type: "tutoring",
+        salary: "₹500+/hour",
+        salaryRange: "medium",
+        location: "remote",
+        requirements: ["Strong subject knowledge", "Good communication skills", "Beginners welcome"],
+        platforms: "Vedantu, TeacherOn, MyPrivateTutor",
+        description: "Teach subjects online with flexible schedule",
+        icon: "🌍",
+        badge: "Remote"
+      },
+      {
+        id: 4,
+        title: "Customer Support",
+        type: "support",
+        salary: "₹3,000–₹5,000/month",
+        salaryRange: "low",
+        location: "hybrid",
+        requirements: ["Data entry and online research", "Customer service assistance", "Problem resolution"],
+        platforms: "Amazon, POSGuru, Miko.ai",
+        description: "Customer support with flexible hours",
+        icon: "🎓",
+        badge: "Flexible"
+      },
+      {
+        id: 5,
+        title: "Graphic Designer Intern",
+        type: "design",
+        salary: "₹10,000–₹15,000/month",
+        salaryRange: "medium",
+        location: "hybrid",
+        requirements: ["Create visuals for social media", "Design website elements", "Use Canva, Figma, Photoshop"],
+        platforms: "ReadyCoder, Miller Organics, LinkedIn",
+        description: "6-month internship with design tools",
+        icon: "📚",
+        badge: "Internship"
+      },
+      {
+        id: 6,
+        title: "Content Writer / Editor",
+        type: "writing",
+        salary: "Varies by project",
+        salaryRange: "medium",
+        location: "remote",
+        requirements: ["Edit and proofread blogs", "Create brand content", "Experience helpful but not required"],
+        platforms: "Techolas, Eduflier, RankHawn",
+        description: "Part-time remote writing and editing",
+        icon: "💡",
+        badge: "Remote"
+      }
+    ];
+
+    // DOM Elements
+    const jobsContainer = document.getElementById('jobsContainer');
+    const filterPanel = document.getElementById('filterPanel');
+    const filterBtn = document.getElementById('filterBtn');
+    const applyFiltersBtn = document.getElementById('applyFilters');
+    const clearFiltersBtn = document.getElementById('clearFilters');
+    const searchInput = document.getElementById('searchInput');
+    const searchBtn = document.getElementById('searchBtn');
+    const jobTypeFilter = document.getElementById('jobTypeFilter');
+    const salaryFilter = document.getElementById('salaryFilter');
+    const locationFilter = document.getElementById('locationFilter');
+    const filterStatus = document.getElementById('filterStatus');
+    const noResults = document.getElementById('noResults');
+    const loadingIndicator = document.getElementById('loadingIndicator');
+    const jobCount = document.getElementById('jobCount');
+    const addJobBtn = document.getElementById('addJobBtn');
+    const addJobModal = document.getElementById('addJobModal');
+    const closeModal = document.getElementById('closeModal');
+    const cancelJob = document.getElementById('cancelJob');
+    const jobForm = document.getElementById('jobForm');
+
+    // Current filters
+    let currentFilters = {
+      jobType: 'all',
+      salary: 'all',
+      location: 'all',
+      search: ''
+    };
+
+    // Initialize the page
+    document.addEventListener('DOMContentLoaded', function() {
+      renderJobs(jobData);
+      setupEventListeners();
+    });
+
+    // Set up event listeners
+    function setupEventListeners() {
+      // Filter panel toggle
+      filterBtn.addEventListener('click', toggleFilterPanel);
+      
+      // Apply filters
+      applyFiltersBtn.addEventListener('click', applyFilters);
+      
+      // Clear filters
+      clearFiltersBtn.addEventListener('click', clearFilters);
+      
+      // Search functionality
+      searchBtn.addEventListener('click', performSearch);
+      searchInput.addEventListener('keyup', function(event) {
+        if (event.key === 'Enter') {
+          performSearch();
+        }
+      });
+      
+      // Add job modal
+      addJobBtn.addEventListener('click', () => addJobModal.classList.remove('hidden'));
+      closeModal.addEventListener('click', () => addJobModal.classList.add('hidden'));
+      cancelJob.addEventListener('click', () => addJobModal.classList.add('hidden'));
+      
+      // Job form submission
+      jobForm.addEventListener('submit', handleJobSubmission);
+    }
+
+    // Toggle filter panel visibility
+    function toggleFilterPanel() {
+      filterPanel.classList.toggle('hidden');
+    }
+
+    // Apply filters based on user selection
+    function applyFilters() {
+      currentFilters.jobType = jobTypeFilter.value;
+      currentFilters.salary = salaryFilter.value;
+      currentFilters.location = locationFilter.value;
+      
+      const filteredJobs = filterJobs(jobData, currentFilters);
+      renderJobs(filteredJobs);
+      
+      // Update filter status
+      updateFilterStatus();
+      
+      // Close filter panel on mobile
+      if (window.innerWidth < 768) {
+        filterPanel.classList.add('hidden');
+      }
+    }
+
+    // Clear all filters
+    function clearFilters() {
+      jobTypeFilter.value = 'all';
+      salaryFilter.value = 'all';
+      locationFilter.value = 'all';
+      searchInput.value = '';
+      
+      currentFilters = {
+        jobType: 'all',
+        salary: 'all',
+        location: 'all',
+        search: ''
+      };
+      
+      renderJobs(jobData);
+      updateFilterStatus();
+    }
+
+    // Perform search based on input
+    function performSearch() {
+      currentFilters.search = searchInput.value.toLowerCase();
+      const filteredJobs = filterJobs(jobData, currentFilters);
+      renderJobs(filteredJobs);
+      updateFilterStatus();
+    }
+
+    // Filter jobs based on current criteria
+    function filterJobs(jobs, filters) {
+      return jobs.filter(job => {
+        // Filter by job type
+        if (filters.jobType !== 'all' && job.type !== filters.jobType) {
+          return false;
+        }
+        
+        // Filter by salary range
+        if (filters.salary !== 'all' && job.salaryRange !== filters.salary) {
+          return false;
+        }
+        
+        // Filter by location
+        if (filters.location !== 'all' && job.location !== filters.location) {
+          return false;
+        }
+        
+        // Filter by search term
+        if (filters.search) {
+          const searchTerm = filters.search;
+          const searchableText = `${job.title} ${job.description} ${job.platforms} ${job.requirements.join(' ')}`.toLowerCase();
+          if (!searchableText.includes(searchTerm)) {
+            return false;
+          }
+        }
+        
+        return true;
+      });
+    }
+
+    // Update filter status text
+    function updateFilterStatus() {
+      const filteredJobs = filterJobs(jobData, currentFilters);
+      const totalJobs = jobData.length;
+      const showingJobs = filteredJobs.length;
+      
+      if (showingJobs === totalJobs) {
+        filterStatus.textContent = `Showing all ${totalJobs} jobs`;
+      } else {
+        filterStatus.textContent = `Showing ${showingJobs} of ${totalJobs} jobs`;
+        
+        // Add active filter indicators
+        const activeFilters = [];
+        if (currentFilters.jobType !== 'all') activeFilters.push(`Type: ${jobTypeFilter.options[jobTypeFilter.selectedIndex].text}`);
+        if (currentFilters.salary !== 'all') activeFilters.push(`Salary: ${salaryFilter.options[salaryFilter.selectedIndex].text}`);
+        if (currentFilters.location !== 'all') activeFilters.push(`Location: ${locationFilter.options[locationFilter.selectedIndex].text}`);
+        if (currentFilters.search) activeFilters.push(`Search: "${currentFilters.search}"`);
+        
+        if (activeFilters.length > 0) {
+          filterStatus.textContent += ` (${activeFilters.join(', ')})`;
+        }
+      }
+      
+      // Update job count
+      jobCount.textContent = `${showingJobs}+`;
+    }
+
+    // Render jobs to the page
+    function renderJobs(jobs) {
+      // Show loading indicator
+      loadingIndicator.classList.remove('hidden');
+      jobsContainer.innerHTML = '';
+      
+      // Simulate API delay
+      setTimeout(() => {
+        loadingIndicator.classList.add('hidden');
+        
+        if (jobs.length === 0) {
+          noResults.classList.remove('hidden');
+          return;
+        }
+        
+        noResults.classList.add('hidden');
+        
+        jobs.forEach(job => {
+          const jobElement = createJobElement(job);
+          jobsContainer.appendChild(jobElement);
+        });
+        
+        // Trigger scroll animations
+        triggerRevealAnimations();
+      }, 500);
+    }
+
+    // Create HTML for a job card
+    function createJobElement(job) {
+      const jobDiv = document.createElement('div');
+      jobDiv.className = 'flex flex-col lg:flex-row items-center gap-8 reveal';
+      
+      // Determine badge color based on job type
+      let badgeColor = 'bg-blue-100 text-primary';
+      if (job.type === 'remote') badgeColor = 'bg-purple-100 text-primary';
+      if (job.type === 'tutoring') badgeColor = 'bg-green-100 text-primary';
+      if (job.type === 'design') badgeColor = 'bg-indigo-100 text-primary';
+      if (job.type === 'writing') badgeColor = 'bg-pink-100 text-primary';
+      if (job.type === 'support') badgeColor = 'bg-yellow-100 text-primary';
+      
+      // Determine gradient colors for image placeholder
+      let gradientFrom = 'from-blue-50';
+      let gradientTo = 'to-indigo-100';
+      if (job.type === 'remote') {
+        gradientFrom = 'from-purple-50';
+        gradientTo = 'to-pink-100';
+      } else if (job.type === 'tutoring') {
+        gradientFrom = 'from-green-50';
+        gradientTo = 'to-teal-100';
+      } else if (job.type === 'design') {
+        gradientFrom = 'from-indigo-50';
+        gradientTo = 'to-purple-100';
+      } else if (job.type === 'writing') {
+        gradientFrom = 'from-pink-50';
+        gradientTo = 'to-rose-100';
+      } else if (job.type === 'support') {
+        gradientFrom = 'from-yellow-50';
+        gradientTo = 'to-amber-100';
+      }
+      
+      jobDiv.innerHTML = `
+        <div class="w-full lg:w-2/5">
+          <div class="rounded-xl overflow-hidden shadow-lg h-64 bg-gradient-to-r ${gradientFrom} ${gradientTo} flex items-center justify-center">
+            <div class="text-center p-6">
+              <div class="text-6xl text-accent mb-4">${job.icon}</div>
+              <h3 class="text-xl font-bold text-secondary">${job.title}</h3>
+              <p class="text-slate-600 mt-2">${job.description}</p>
+            </div>
+          </div>
+        </div>
+        <div class="w-full lg:w-3/5">
+          <article class="job-card bg-white rounded-2xl shadow-lg p-8 border border-slate-100">
+            <div class="flex justify-between items-start mb-6">
+              <h2 class="text-2xl font-bold text-secondary flex items-center gap-3">
+                <span class="text-accent">${job.icon}</span>
+                <span>${job.title}</span>
+              </h2>
+              <span class="${badgeColor} px-3 py-1 rounded-full text-sm font-medium">${job.badge}</span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+              <div class="flex items-center">
+                <i class="fas fa-rupee-sign text-accent mr-3 w-5"></i>
+                <div>
+                  <p class="font-semibold">${job.salary}</p>
+                  <p class="text-sm text-slate-500">${job.salaryRange === 'high' ? 'High earnings' : job.salaryRange === 'medium' ? 'Competitive pay' : 'Entry level'}</p>
+                </div>
+              </div>
+              <div class="flex items-center">
+                <i class="fas fa-clock text-accent mr-3 w-5"></i>
+                <div>
+                  <p class="font-semibold">Flexible hours</p>
+                  <p class="text-sm text-slate-500">Work when you want</p>
+                </div>
+              </div>
+              <div class="flex items-center">
+                <i class="fas fa-map-marker-alt text-accent mr-3 w-5"></i>
+                <div>
+                  <p class="font-semibold">${job.location === 'remote' ? 'Remote' : job.location === 'onsite' ? 'On-site' : 'Hybrid'}</p>
+                  <p class="text-sm text-slate-500">${job.location === 'remote' ? 'Work from anywhere' : job.location === 'onsite' ? 'Local work' : 'Flexible location'}</p>
+                </div>
+              </div>
+              <div class="flex items-center">
+                <i class="fas fa-briefcase text-accent mr-3 w-5"></i>
+                <div>
+                  <p class="font-semibold">Part-time</p>
+                  <p class="text-sm text-slate-500">Student-friendly</p>
+                </div>
+              </div>
+            </div>
+            <div class="mb-6">
+              <h3 class="font-semibold text-secondary mb-3">Requirements:</h3>
+              <ul class="text-sm space-y-2">
+                ${job.requirements.map(req => `
+                  <li class="flex items-start">
+                    <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                    <span>${req}</span>
+                  </li>
+                `).join('')}
+              </ul>
+            </div>
+            <div class="flex flex-col sm:flex-row justify-between items-center">
+              <div>
+                <p class="text-sm text-slate-600"><strong>Platforms:</strong> ${job.platforms}</p>
+              </div>
+              <button class="mt-4 sm:mt-0 bg-primary hover:bg-secondary text-white px-6 py-2 rounded-lg font-medium transition-colors apply-btn" data-job-id="${job.id}">
+                Apply Now
+              </button>
+            </div>
+          </article>
+        </div>
+      `;
+      
+      // Add event listener to the apply button
+      const applyBtn = jobDiv.querySelector('.apply-btn');
+      applyBtn.addEventListener('click', function() {
+        const jobId = this.getAttribute('data-job-id');
+        const job = jobData.find(j => j.id == jobId);
+        alert(`Thank you for your interest in the "${job.title}" position! We'll redirect you to the application page.`);
+      });
+      
+      return jobDiv;
+    }
+
+    // Handle job form submission
+    function handleJobSubmission(e) {
+      e.preventDefault();
+      
+      const title = document.getElementById('jobTitle').value;
+      const type = document.getElementById('jobType').value;
+      const salary = document.getElementById('jobSalary').value;
+      const requirements = document.getElementById('jobRequirements').value.split('\n').filter(req => req.trim() !== '');
+      
+      // Determine salary range
+      let salaryRange = "medium";
+      if (salary.includes('30,000') || salary.includes('35,000')) salaryRange = "high";
+      if (salary.includes('3,000') || salary.includes('5,000')) salaryRange = "low";
+      
+      // Determine location based on type
+      let location = "onsite";
+      if (type === 'remote' || type === 'writing') location = "remote";
+      if (type === 'design' || type === 'support') location = "hybrid";
+      
+      // Create new job object
+      const newJob = {
+        id: jobData.length + 1,
+        title: title,
+        type: type,
+        salary: salary,
+        salaryRange: salaryRange,
+        location: location,
+        requirements: requirements,
+        platforms: "To be determined",
+        description: "New opportunity added by user",
+        icon: "⭐",
+        badge: "New"
+      };
+      
+      // Add to job data
+      jobData.push(newJob);
+      
+      // Re-render jobs
+      renderJobs(jobData);
+      
+      // Close modal and reset form
+      addJobModal.classList.add('hidden');
+      jobForm.reset();
+      
+      // Show success message
+      alert(`"${title}" has been added to the job listings!`);
+    }
+
+    // Trigger reveal animations for job cards
+    function triggerRevealAnimations() {
+      const reveals = document.querySelectorAll('.reveal');
+      const revealOnScroll = () => {
+        const trigger = window.innerHeight * 0.85;
+        reveals.forEach(el => {
+          const top = el.getBoundingClientRect().top;
+          if (top < trigger) el.classList.add('active');
+        });
+      };
+      
+      window.addEventListener('scroll', revealOnScroll);
+      revealOnScroll(); // Trigger on initial load
+    }
+
+    // Simulate Gemini API integration
+    function fetchJobsFromGeminiAPI() {
+      // In a real implementation, this would make an actual API call
+      console.log("Fetching jobs from Gemini API...");
+      
+      // Simulate API response with additional jobs
+      const geminiJobs = [
+        {
+          id: 7,
+          title: "Social Media Manager",
+          type: "remote",
+          salary: "₹8,000–₹12,000/month",
+          salaryRange: "medium",
+          location: "remote",
+          requirements: ["Manage social media accounts", "Create engaging content", "Basic graphic design skills"],
+          platforms: "Instagram, Facebook, Upwork",
+          description: "Manage social media for small businesses",
+          icon: "📱",
+          badge: "Remote"
+        },
+        {
+          id: 8,
+          title: "Data Entry Specialist",
+          type: "remote",
+          salary: "₹200–₹400/hour",
+          salaryRange: "low",
+          location: "remote",
+          requirements: ["Fast typing speed", "Attention to detail", "Basic computer skills"],
+          platforms: "Upwork, Fiverr, Freelancer",
+          description: "Remote data entry with flexible hours",
+          icon: "📊",
+          badge: "Remote"
+        }
+      ];
+      
+      // Add Gemini jobs to our job data
+      geminiJobs.forEach(job => {
+        if (!jobData.some(existingJob => existingJob.id === job.id)) {
+          jobData.push(job);
+        }
+      });
+      
+      // Re-render jobs
+      renderJobs(jobData);
+      updateFilterStatus();
+    }
+
+    // Simulate loading Gemini jobs after a delay
+    setTimeout(fetchJobsFromGeminiAPI, 2000);
+  </script>
+
+</body>
+</html>

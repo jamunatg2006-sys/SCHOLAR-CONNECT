@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Free Certification Courses | SCHOLAR CONNECT</title>
+  <link rel="icon" type="image/png" href="images\favicon.png">
+
+  <!-- ✅ Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* 👇 Fade-in + slide-up scroll animation */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    /* Professional color scheme */
+    .bg-primary { background-color: #1e3a8a; }
+    .bg-secondary { background-color: #0f172a; }
+    .bg-accent { background-color: #3b82f6; }
+    .text-primary { color: #1e3a8a; }
+    .text-secondary { color: #0f172a; }
+    .text-accent { color: #3b82f6; }
+    
+    /* Custom gradient */
+    .gradient-bg {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    }
+    
+    /* Card hover effects */
+    .course-card {
+      transition: all 0.3s ease;
+    }
+    .course-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    
+    /* Filter sidebar styling */
+    .filter-sidebar {
+      transition: all 0.3s ease;
+    }
+    
+    /* Loading spinner */
+    .spinner {
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      border-left-color: #3b82f6;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .filter-sidebar {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 80%;
+        height: 100vh;
+        z-index: 50;
+        background: white;
+        overflow-y: auto;
+        padding: 1.5rem;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      }
+      
+      .filter-sidebar.active {
+        left: 0;
+      }
+      
+      .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 40;
+      }
+      
+      .overlay.active {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body class="gradient-bg text-slate-800 antialiased">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 backdrop-blur bg-white/90 border-b border-slate-200 shadow-sm">
+    <div class="max-w-6xl mx-auto px-6 py-4">
+      <div class="flex flex-col sm:flex-row justify-between items-center">
+        <div class="text-center sm:text-left mb-4 sm:mb-0">
+          <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-primary">
+            <i class="fas fa-graduation-cap mr-2 text-accent"></i>Free Certification Courses
+          </h1>
+          <p class="text-sm text-slate-600 mt-1">
+            "Learn new skills and earn certificates — all for free."
+          </p>
+        </div>
+        <div class="flex items-center space-x-4">
+          <button id="filterToggle" class="bg-primary hover:bg-secondary text-white px-4 py-2 rounded-lg flex items-center transition-colors">
+            <i class="fas fa-filter mr-2"></i> Filter Courses
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="max-w-6xl mx-auto px-6 py-12">
+    <div class="text-center">
+      <h2 class="text-4xl font-bold text-secondary mb-4">Advance Your Career with Free Certifications</h2>
+      <p class="text-lg text-slate-600 max-w-2xl mx-auto">Discover hundreds of free courses with certificates from top institutions and platforms. Enhance your skills without spending a dime.</p>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="max-w-6xl mx-auto px-6 py-6">
+    <div class="flex flex-col lg:flex-row gap-8">
+      
+      <!-- Filter Sidebar -->
+      <aside class="filter-sidebar w-full lg:w-1/4 bg-white rounded-2xl shadow-lg p-6 h-fit">
+        <div class="flex justify-between items-center mb-6">
+          <h3 class="text-xl font-bold text-secondary">Filter Courses</h3>
+          <button id="closeFilters" class="lg:hidden text-slate-500 hover:text-slate-700">
+            <i class="fas fa-times text-xl"></i>
+          </button>
+        </div>
+        
+        <!-- Search -->
+        <div class="mb-6">
+          <label class="block text-sm font-medium text-slate-700 mb-2">Search</label>
+          <input type="text" id="searchInput" placeholder="Search courses..." class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-accent">
+        </div>
+        
+        <!-- Category Filter -->
+        <div class="mb-6">
+          <label class="block text-sm font-medium text-slate-700 mb-2">Category</label>
+          <select id="categoryFilter" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-accent">
+            <option value="all">All Categories</option>
+            <option value="technology">Technology</option>
+            <option value="business">Business</option>
+            <option value="design">Design</option>
+            <option value="health">Health & Wellness</option>
+            <option value="language">Language</option>
+            <option value="science">Science</option>
+            <option value="arts">Arts & Humanities</option>
+          </select>
+        </div>
+        
+        <!-- Difficulty Filter -->
+        <div class="mb-6">
+          <label class="block text-sm font-medium text-slate-700 mb-2">Difficulty</label>
+          <select id="difficultyFilter" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-accent">
+            <option value="all">All Levels</option>
+            <option value="beginner">Beginner</option>
+            <option value="intermediate">Intermediate</option>
+            <option value="advanced">Advanced</option>
+          </select>
+        </div>
+        
+        <!-- Duration Filter -->
+        <div class="mb-6">
+          <label class="block text-sm font-medium text-slate-700 mb-2">Duration</label>
+          <select id="durationFilter" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-accent">
+            <option value="all">Any Duration</option>
+            <option value="short">Short (1-4 weeks)</option>
+            <option value="medium">Medium (5-12 weeks)</option>
+            <option value="long">Long (13+ weeks)</option>
+          </select>
+        </div>
+        
+        <!-- Platform Filter -->
+        <div class="mb-6">
+          <label class="block text-sm font-medium text-slate-700 mb-2">Platform</label>
+          <select id="platformFilter" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-accent">
+            <option value="all">All Platforms</option>
+            <option value="coursera">Coursera</option>
+            <option value="edx">edX</option>
+            <option value="udemy">Udemy</option>
+            <option value="google">Google</option>
+            <option value="microsoft">Microsoft</option>
+            <option value="ibm">IBM</option>
+            <option value="alison">Alison</option>
+          </select>
+        </div>
+        
+        <!-- Reset Filters -->
+        <button id="resetFilters" class="w-full bg-slate-200 hover:bg-slate-300 text-slate-700 py-2 rounded-lg font-medium transition-colors">
+          Reset Filters
+        </button>
+      </aside>
+      
+      <!-- Mobile Overlay -->
+      <div id="overlay" class="overlay"></div>
+      
+      <!-- Courses Grid -->
+      <section class="w-full lg:w-3/4">
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-2xl font-bold text-secondary">
+            <span id="courseCount">0</span> Courses Available
+          </h2>
+          <div class="flex items-center space-x-2">
+            <span class="text-sm text-slate-600">Sort by:</span>
+            <select id="sortBy" class="px-3 py-1 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-accent focus:border-accent">
+              <option value="relevance">Relevance</option>
+              <option value="popularity">Popularity</option>
+              <option value="newest">Newest</option>
+              <option value="duration">Duration</option>
+            </select>
+          </div>
+        </div>
+        
+        <!-- Loading Spinner -->
+        <div id="loadingSpinner" class="spinner my-12"></div>
+        
+        <!-- Courses Container -->
+        <div id="coursesContainer" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Courses will be dynamically inserted here -->
+        </div>
+        
+        <!-- No Results Message -->
+        <div id="noResults" class="hidden text-center py-12">
+          <i class="fas fa-search text-6xl text-slate-300 mb-4"></i>
+          <h3 class="text-xl font-bold text-slate-500 mb-2">No courses found</h3>
+          <p class="text-slate-500">Try adjusting your filters or search terms</p>
+        </div>
+        
+        <!-- Load More Button -->
+        <div id="loadMoreContainer" class="text-center mt-8 hidden">
+          <button id="loadMore" class="bg-primary hover:bg-secondary text-white px-6 py-3 rounded-lg font-medium transition-colors">
+            Load More Courses
+          </button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- CTA Section -->
+  <section class="max-w-6xl mx-auto px-6 py-16">
+    <div class="bg-gradient-to-r from-primary to-secondary text-white rounded-2xl p-10 text-center">
+      <h2 class="text-3xl font-bold mb-4">Ready to Start Learning?</h2>
+      <p class="mb-6 max-w-2xl mx-auto text-lg">Join thousands of learners who are advancing their careers with free certification courses. Sign up to get personalized course recommendations.</p>
+      <div class="flex flex-col sm:flex-row justify-center gap-4">
+        <button class="bg-white text-primary hover:bg-slate-100 font-bold px-8 py-3 rounded-lg transition-colors">
+          Browse All Courses
+        </button>
+        <button class="bg-transparent border-2 border-white hover:bg-white/10 font-bold px-8 py-3 rounded-lg transition-colors">
+          Sign Up for Updates
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="mt-8 border-t border-slate-200 bg-white">
+    <div class="max-w-6xl mx-auto px-6 py-8">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="mb-4 md:mb-0">
+          <h3 class="text-lg font-bold text-primary">Qubit Fund</h3>
+          <p class="text-sm text-slate-600">Empowering learners through free education.</p>
+        </div>
+        <div class="flex space-x-6">
+          <a href="#" class="text-slate-600 hover:text-accent">
+            <i class="fab fa-twitter text-lg"></i>
+          </a>
+          <a href="#" class="text-slate-600 hover:text-accent">
+            <i class="fab fa-linkedin text-lg"></i>
+          </a>
+          <a href="#" class="text-slate-600 hover:text-accent">
+            <i class="fab fa-instagram text-lg"></i>
+          </a>
+        </div>
+      </div>
+      <div class="mt-6 text-center text-sm text-slate-500">
+        © 2025 Qubit Fund • All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Course data structure
+    let courses = [];
+    let filteredCourses = [];
+    let displayedCourses = [];
+    const coursesPerPage = 8;
+    let currentPage = 1;
+    
+    // DOM Elements
+    const coursesContainer = document.getElementById('coursesContainer');
+    const loadingSpinner = document.getElementById('loadingSpinner');
+    const noResults = document.getElementById('noResults');
+    const loadMoreContainer = document.getElementById('loadMoreContainer');
+    const loadMoreButton = document.getElementById('loadMore');
+    const courseCount = document.getElementById('courseCount');
+    const filterToggle = document.getElementById('filterToggle');
+    const closeFilters = document.getElementById('closeFilters');
+    const overlay = document.getElementById('overlay');
+    const filterSidebar = document.querySelector('.filter-sidebar');
+    
+    // Filter elements
+    const searchInput = document.getElementById('searchInput');
+    const categoryFilter = document.getElementById('categoryFilter');
+    const difficultyFilter = document.getElementById('difficultyFilter');
+    const durationFilter = document.getElementById('durationFilter');
+    const platformFilter = document.getElementById('platformFilter');
+    const sortBy = document.getElementById('sortBy');
+    const resetFilters = document.getElementById('resetFilters');
+    
+    // Initialize the page
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load courses from API
+      loadCourses();
+      
+      // Set up event listeners
+      setupEventListeners();
+    });
+    
+    // Load courses from API
+    async function loadCourses() {
+      try {
+        // In a real implementation, this would be an actual API call
+        // For demonstration, we'll use a simulated API response
+        loadingSpinner.classList.remove('hidden');
+        
+        // Simulate API delay
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        
+        // Sample course data (in a real app, this would come from an API)
+        courses = [
+          {
+            id: 1,
+            title: "Introduction to Python Programming",
+            description: "Learn the fundamentals of Python programming language with hands-on exercises.",
+            category: "technology",
+            difficulty: "beginner",
+            duration: "6 weeks",
+            durationType: "medium",
+            platform: "coursera",
+            rating: 4.7,
+            students: 125000,
+            instructor: "University of Michigan",
+            certificate: true,
+            image: "python-course.jpg",
+            popular: true
+          },
+          {
+            id: 2,
+            title: "Digital Marketing Fundamentals",
+            description: "Master the basics of digital marketing including SEO, social media, and email marketing.",
+            category: "business",
+            difficulty: "beginner",
+            duration: "4 weeks",
+            durationType: "short",
+            platform: "google",
+            rating: 4.5,
+            students: 89000,
+            instructor: "Google Digital Garage",
+            certificate: true,
+            image: "digital-marketing.jpg",
+            popular: true
+          },
+          {
+            id: 3,
+            title: "Graphic Design Principles",
+            description: "Learn the fundamental principles of graphic design and create stunning visuals.",
+            category: "design",
+            difficulty: "beginner",
+            duration: "8 weeks",
+            durationType: "medium",
+            platform: "coursera",
+            rating: 4.6,
+            students: 72000,
+            instructor: "California Institute of the Arts",
+            certificate: true,
+            image: "graphic-design.jpg"
+          },
+          {
+            id: 4,
+            title: "Machine Learning with Python",
+            description: "Dive into machine learning algorithms and implement them using Python libraries.",
+            category: "technology",
+            difficulty: "intermediate",
+            duration: "12 weeks",
+            durationType: "medium",
+            platform: "ibm",
+            rating: 4.8,
+            students: 95000,
+            instructor: "IBM",
+            certificate: true,
+            image: "machine-learning.jpg",
+            popular: true
+          },
+          {
+            id: 5,
+            title: "Financial Markets",
+            description: "Understand how financial markets work and learn investment strategies.",
+            category: "business",
+            difficulty: "intermediate",
+            duration: "7 weeks",
+            durationType: "medium",
+            platform: "coursera",
+            rating: 4.7,
+            students: 110000,
+            instructor: "Yale University",
+            certificate: true,
+            image: "financial-markets.jpg"
+          },
+          {
+            id: 6,
+            title: "Introduction to Psychology",
+            description: "Explore the scientific study of human behavior and mental processes.",
+            category: "science",
+            difficulty: "beginner",
+            duration: "15 weeks",
+            durationType: "long",
+            platform: "edx",
+            rating: 4.6,
+            students: 150000,
+            instructor: "University of Toronto",
+            certificate: true,
+            image: "psychology.jpg"
+          },
+          {
+            id: 7,
+            title: "Web Development Bootcamp",
+            description: "Learn HTML, CSS, JavaScript and build responsive websites from scratch.",
+            category: "technology",
+            difficulty: "beginner",
+            duration: "10 weeks",
+            durationType: "medium",
+            platform: "udemy",
+            rating: 4.5,
+            students: 180000,
+            instructor: "The App Brewery",
+            certificate: true,
+            image: "web-development.jpg",
+            popular: true
+          },
+          {
+            id: 8,
+            title: "Spanish for Beginners",
+            description: "Start speaking Spanish from day one with this comprehensive beginner course.",
+            category: "language",
+            difficulty: "beginner",
+            duration: "8 weeks",
+            durationType: "medium",
+            platform: "coursera",
+            rating: 4.4,
+            students: 65000,
+            instructor: "University of California, Davis",
+            certificate: true,
+            image: "spanish-course.jpg"
+          },
+          {
+            id: 9,
+            title: "Data Science Fundamentals",
+            description: "Learn the core concepts of data science and how to extract insights from data.",
+            category: "technology",
+            difficulty: "intermediate",
+            duration: "9 weeks",
+            durationType: "medium",
+            platform: "ibm",
+            rating: 4.7,
+            students: 82000,
+            instructor: "IBM",
+            certificate: true,
+            image: "data-science.jpg"
+          },
+          {
+            id: 10,
+            title: "Project Management Principles",
+            description: "Master the fundamentals of project management and lead successful projects.",
+            category: "business",
+            difficulty: "beginner",
+            duration: "5 weeks",
+            durationType: "short",
+            platform: "google",
+            rating: 4.5,
+            students: 95000,
+            instructor: "Google",
+            certificate: true,
+            image: "project-management.jpg"
+          },
+          {
+            id: 11,
+            title: "Nutrition and Health",
+            description: "Learn about human nutrition and how to make healthy food choices.",
+            category: "health",
+            difficulty: "beginner",
+            duration: "6 weeks",
+            durationType: "medium",
+            platform: "edx",
+            rating: 4.4,
+            students: 58000,
+            instructor: "Wageningen University",
+            certificate: true,
+            image: "nutrition.jpg"
+          },
+          {
+            id: 12,
+            title: "Artificial Intelligence Fundamentals",
+            description: "Explore the world of AI and understand how it's transforming industries.",
+            category: "technology",
+            difficulty: "intermediate",
+            duration: "11 weeks",
+            durationType: "medium",
+            platform: "microsoft",
+            rating: 4.8,
+            students: 105000,
+            instructor: "Microsoft",
+            certificate: true,
+            image: "ai-fundamentals.jpg",
+            popular: true
+          }
+        ];
+        
+        // Initialize filtered courses
+        filteredCourses = [...courses];
+        
+        // Apply initial sorting
+        applySorting();
+        
+        // Display first page of courses
+        displayCourses();
+        
+        loadingSpinner.classList.add('hidden');
+        
+      } catch (error) {
+        console.error('Error loading courses:', error);
+        loadingSpinner.classList.add('hidden');
+        coursesContainer.innerHTML = `
+          <div class="col-span-full text-center py-12">
+            <i class="fas fa-exclamation-triangle text-6xl text-slate-300 mb-4"></i>
+            <h3 class="text-xl font-bold text-slate-500 mb-2">Failed to load courses</h3>
+            <p class="text-slate-500">Please try again later</p>
+          </div>
+        `;
+      }
+    }
+    
+    // Set up event listeners
+    function setupEventListeners() {
+      // Filter toggle for mobile
+      filterToggle.addEventListener('click', toggleFilters);
+      closeFilters.addEventListener('click', toggleFilters);
+      overlay.addEventListener('click', toggleFilters);
+      
+      // Filter change events
+      searchInput.addEventListener('input', applyFilters);
+      categoryFilter.addEventListener('change', applyFilters);
+      difficultyFilter.addEventListener('change', applyFilters);
+      durationFilter.addEventListener('change', applyFilters);
+      platformFilter.addEventListener('change', applyFilters);
+      sortBy.addEventListener('change', applySorting);
+      
+      // Reset filters
+      resetFilters.addEventListener('click', resetAllFilters);
+      
+      // Load more courses
+      loadMoreButton.addEventListener('click', loadMoreCourses);
+    }
+    
+    // Toggle filter sidebar on mobile
+    function toggleFilters() {
+      filterSidebar.classList.toggle('active');
+      overlay.classList.toggle('active');
+      document.body.style.overflow = filterSidebar.classList.contains('active') ? 'hidden' : '';
+    }
+    
+    // Apply all filters
+    function applyFilters() {
+      const searchTerm = searchInput.value.toLowerCase();
+      const category = categoryFilter.value;
+      const difficulty = difficultyFilter.value;
+      const duration = durationFilter.value;
+      const platform = platformFilter.value;
+      
+      filteredCourses = courses.filter(course => {
+        // Search filter
+        if (searchTerm && !course.title.toLowerCase().includes(searchTerm) && 
+            !course.description.toLowerCase().includes(searchTerm)) {
+          return false;
+        }
+        
+        // Category filter
+        if (category !== 'all' && course.category !== category) {
+          return false;
+        }
+        
+        // Difficulty filter
+        if (difficulty !== 'all' && course.difficulty !== difficulty) {
+          return false;
+        }
+        
+        // Duration filter
+        if (duration !== 'all' && course.durationType !== duration) {
+          return false;
+        }
+        
+        // Platform filter
+        if (platform !== 'all' && course.platform !== platform) {
+          return false;
+        }
+        
+        return true;
+      });
+      
+      // Apply sorting
+      applySorting();
+      
+      // Reset to first page
+      currentPage = 1;
+      
+      // Display courses
+      displayCourses();
+    }
+    
+    // Apply sorting to filtered courses
+    function applySorting() {
+      const sortValue = sortBy.value;
+      
+      switch(sortValue) {
+        case 'popularity':
+          filteredCourses.sort((a, b) => {
+            // Sort by student count (descending)
+            if (a.popular && !b.popular) return -1;
+            if (!a.popular && b.popular) return 1;
+            return b.students - a.students;
+          });
+          break;
+        case 'newest':
+          // In a real app, this would use actual dates
+          // For now, we'll sort by ID (assuming newer courses have higher IDs)
+          filteredCourses.sort((a, b) => b.id - a.id);
+          break;
+        case 'duration':
+          // Extract numeric duration from string (e.g., "6 weeks" -> 6)
+          filteredCourses.sort((a, b) => {
+            const aDuration = parseInt(a.duration);
+            const bDuration = parseInt(b.duration);
+            return aDuration - bDuration;
+          });
+          break;
+        case 'relevance':
+        default:
+          // Default sorting (could be based on relevance algorithm)
+          // For now, we'll keep the original order with popular courses first
+          filteredCourses.sort((a, b) => {
+            if (a.popular && !b.popular) return -1;
+            if (!a.popular && b.popular) return 1;
+            return 0;
+          });
+          break;
+      }
+    }
+    
+    // Reset all filters
+    function resetAllFilters() {
+      searchInput.value = '';
+      categoryFilter.value = 'all';
+      difficultyFilter.value = 'all';
+      durationFilter.value = 'all';
+      platformFilter.value = 'all';
+      sortBy.value = 'relevance';
+      
+      applyFilters();
+    }
+    
+    // Display courses based on current page
+    function displayCourses() {
+      // Calculate courses to display
+      const startIndex = 0;
+      const endIndex = currentPage * coursesPerPage;
+      displayedCourses = filteredCourses.slice(startIndex, endIndex);
+      
+      // Update course count
+      courseCount.textContent = filteredCourses.length;
+      
+      // Clear container
+      coursesContainer.innerHTML = '';
+      
+      // Show/hide no results message
+      if (filteredCourses.length === 0) {
+        noResults.classList.remove('hidden');
+        loadMoreContainer.classList.add('hidden');
+      } else {
+        noResults.classList.add('hidden');
+        
+        // Show/hide load more button
+        if (filteredCourses.length > displayedCourses.length) {
+          loadMoreContainer.classList.remove('hidden');
+        } else {
+          loadMoreContainer.classList.add('hidden');
+        }
+        
+        // Display courses
+        displayedCourses.forEach(course => {
+          const courseElement = createCourseElement(course);
+          coursesContainer.appendChild(courseElement);
+        });
+      }
+      
+      // Trigger reveal animations
+      setTimeout(() => {
+        const reveals = document.querySelectorAll('.reveal');
+        const trigger = window.innerHeight * 0.85;
+        
+        reveals.forEach(el => {
+          const top = el.getBoundingClientRect().top;
+          if (top < trigger) el.classList.add('active');
+        });
+      }, 100);
+    }
+    
+    // Create course card element
+    function createCourseElement(course) {
+      const courseElement = document.createElement('div');
+      courseElement.className = 'course-card bg-white rounded-2xl shadow-lg p-6 border border-slate-100 reveal';
+      
+      // Platform badge color
+      let platformBadgeColor = 'bg-blue-100 text-primary';
+      if (course.platform === 'google') platformBadgeColor = 'bg-green-100 text-green-800';
+      if (course.platform === 'microsoft') platformBadgeColor = 'bg-blue-100 text-blue-800';
+      if (course.platform === 'ibm') platformBadgeColor = 'bg-purple-100 text-purple-800';
+      if (course.platform === 'edx') platformBadgeColor = 'bg-indigo-100 text-indigo-800';
+      if (course.platform === 'udemy') platformBadgeColor = 'bg-red-100 text-red-800';
+      if (course.platform === 'alison') platformBadgeColor = 'bg-teal-100 text-teal-800';
+      
+      // Difficulty badge
+      let difficultyBadge = '';
+      if (course.difficulty === 'beginner') difficultyBadge = '<span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">Beginner</span>';
+      if (course.difficulty === 'intermediate') difficultyBadge = '<span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs font-medium">Intermediate</span>';
+      if (course.difficulty === 'advanced') difficultyBadge = '<span class="bg-red-100 text-red-800 px-2 py-1 rounded-full text-xs font-medium">Advanced</span>';
+      
+      courseElement.innerHTML = `
+        <div class="flex justify-between items-start mb-4">
+          <h3 class="text-xl font-bold text-secondary">${course.title}</h3>
+          ${course.popular ? '<span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs font-medium">Popular</span>' : ''}
+        </div>
+        
+        <p class="text-slate-600 mb-4 text-sm">${course.description}</p>
+        
+        <div class="flex items-center justify-between mb-4">
+          <span class="${platformBadgeColor} px-3 py-1 rounded-full text-sm font-medium capitalize">${course.platform}</span>
+          ${difficultyBadge}
+        </div>
+        
+        <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+          <div class="flex items-center">
+            <i class="fas fa-clock text-accent mr-2"></i>
+            <span>${course.duration}</span>
+          </div>
+          <div class="flex items-center">
+            <i class="fas fa-user-graduate text-accent mr-2"></i>
+            <span>${formatNumber(course.students)} students</span>
+          </div>
+          <div class="flex items-center">
+            <i class="fas fa-star text-yellow-500 mr-2"></i>
+            <span>${course.rating}</span>
+          </div>
+          <div class="flex items-center">
+            <i class="fas fa-certificate text-accent mr-2"></i>
+            <span>Certificate</span>
+          </div>
+        </div>
+        
+        <div class="flex justify-between items-center mt-4">
+          <span class="text-sm text-slate-600">By ${course.instructor}</span>
+          <button class="enroll-btn bg-primary hover:bg-secondary text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors" data-course-id="${course.id}">
+            Enroll Now
+          </button>
+        </div>
+      `;
+      
+      // Add event listener to enroll button
+      const enrollBtn = courseElement.querySelector('.enroll-btn');
+      enrollBtn.addEventListener('click', function() {
+        const courseId = this.getAttribute('data-course-id');
+        enrollInCourse(courseId);
+      });
+      
+      return courseElement;
+    }
+    
+    // Format large numbers with commas
+    function formatNumber(num) {
+      return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+    
+    // Enroll in course
+    function enrollInCourse(courseId) {
+      const course = courses.find(c => c.id == courseId);
+      if (course) {
+        alert(`You've successfully enrolled in "${course.title}"! You will be redirected to the course platform.`);
+        // In a real implementation, this would redirect to the course platform
+      }
+    }
+    
+    // Load more courses
+    function loadMoreCourses() {
+      currentPage++;
+      displayCourses();
+    }
+    
+    // Scroll reveal animation
+    const revealOnScroll = () => {
+      const reveals = document.querySelectorAll('.reveal');
+      const trigger = window.innerHeight * 0.85;
+      reveals.forEach(el => {
+        const top = el.getBoundingClientRect().top;
+        if (top < trigger) el.classList.add('active');
+      });
+    };
+    
+    window.addEventListener('scroll', revealOnScroll);
+    window.addEventListener('load', revealOnScroll);
+  </script>
+
+</body>
+</html>

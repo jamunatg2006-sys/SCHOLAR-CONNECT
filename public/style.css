@@ -1,0 +1,605 @@
+/* General reset */
+body{
+    background-color: #C9B07C;
+}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+
+/* Navbar styles */
+/* .navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #2C3E50;
+  padding: 10px 20px;
+}
+
+.navbar .logo {
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.navbar .nav-links li {
+  display: inline;
+  margin-left: 20px;
+}
+
+.navbar .nav-links a {
+  color: #fff;
+  text-decoration: none;
+} */
+
+/* Navbar styles */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* background-color: #2C3E50; */
+  background-color:#2C3E50;
+  padding: 10px 30px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar .logo img {
+  height: 90px;
+  width: auto;
+  background-size:cover;
+  color:black;
+  border:4px solid #E67E22;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links li a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.nav-links li a:hover {
+  background-color: #E67E22;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.nav-links li a i {
+  font-size: 1.1rem;
+}
+/* Hero Section
+.hero {
+  text-align: center;
+  padding: 50px 20px;
+  background-color: #2980B9;
+  color: #fff;
+}
+
+.hero .btn {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #E67E22;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+} */
+ /* ======================================= */
+/* Hero Section Styles (Revised)           */
+/* ======================================= */
+
+.hero {
+  position: relative;
+  width: 100%;
+  height: 70vh; /* adjust as needed */
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Darkens image for better text readability */
+  filter: brightness(50%); 
+}
+
+.hero-text {
+  position: absolute;
+  text-align: center;
+  /* Using a slightly off-white for a cleaner look */
+  color: #f0f0f0; 
+  /* Added a max-width for better control on large screens */
+  max-width: 900px; 
+  padding: 0 20px;
+}
+
+/* --------------------------------------- */
+/* H1: "Don't Quit, Fund It" - Max Impact  */
+/* --------------------------------------- */
+.hero-text h1 {
+  /* Increased Font Size for visual dominance */
+  font-size: 3.5rem; 
+  /* Maximum Boldness */
+  font-weight: 900; 
+  /* Added subtle shadow to make text pop off the background */
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.75); 
+  /* Reduced margin to bring H2 closer */
+  margin-bottom: 5px; 
+  letter-spacing: 1px;
+}
+
+/* --------------------------------------- */
+/* H2: Sub-heading - Authority & Clarity   */
+/* --------------------------------------- */
+.hero-text h2 {
+  /* Increased size and weight for authority */
+  font-size: 2.0rem; 
+  font-weight: 700;
+  /* Added subtle shadow for readability */
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+  margin-bottom: 25px;
+}
+
+/* --------------------------------------- */
+/* Paragraph & Button Styles (from original)*/
+/* --------------------------------------- */
+.hero-text p {
+  font-size: 1.0rem;
+  margin-bottom: 20px;
+}
+
+.hero-text .btn {
+  display: inline-block;
+  padding: 12px 25px;
+  background-color: #E67E22; /* Your primary button color */
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 5px;
+  transition: background 0.3s ease;
+  text-shadow: none; /* Remove shadow from button text */
+}
+
+.hero-text .btn:hover {
+  background-color: #cf6a16;
+}
+ 
+/* Why Section */
+.why {
+  text-align: center;
+  font-size:25px;
+  padding: 40px 20px;
+  background-color:#B0C4DE;
+  
+}
+/* .why-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; */
+  /* Darkens image for better text readability */
+  /* filter: brightness(50%); 
+} */
+.why-image-container {
+  overflow: hidden;
+  display: inline-block;
+  border-radius: 40px;
+}
+
+.why-image {
+  width: 50%;
+  height:10%;
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+  color:#3333ff;
+  background-image:cover;
+  background-size:50%;
+}
+
+.why-image:hover {
+  transform: scale(1.1);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Features Section - vertical layout */
+/* .features {
+  display: flex;
+  flex-direction: column; /* stacks vertically */
+  /* align-items: center;
+  padding: 40px 20px;
+  gap: 20px; /* space between cards */
+/* } */
+/* 
+.features .card {
+  width: 80%;
+  max-width: 400px;
+  text-align: center;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+} */ */ */
+ /* ✨ Features Section with Animated Background */
+
+/* .features {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+  background-color: #f0f0f0;
+}
+
+.feature-card {
+  width: calc(50% - 20px);
+  max-width: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  min-height: 200px;
+}
+
+.feature-card img {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 15px;
+}
+
+.feature-card h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #333;
+  font-size: 1.25rem;
+}
+
+.feature-card p {
+  color: #666;
+  font-size: 1rem;
+}
+
+@media (min-width: 768px) {
+  .feature-card {
+    width: calc(25% - 15px);
+    max-width: 250px;
+  }
+} */
+ /* --- Features Section Container --- */
+section.features {
+  /* CRITICAL: display: flex; and justify-content: center; centers the group of cards horizontally */
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  
+  gap: 35px; 
+  padding: 40px 20px;
+  margin: 0 auto; 
+  background-color: rgb(255, 149, 0);
+}
+
+/* --- Individual Feature Card Styling --- */
+.feature-card {
+  width: calc(25% - 22.5px); 
+  min-width: 100%;
+  max-width: 100%; 
+  
+  /* Centers the content (image, h3, p) inside the individual card */
+  display: flex;
+  flex-direction: column; 
+  align-items: center; 
+  text-align: center;
+  
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
+  background-color: white;
+  
+  transition: transform 0.3s ease, box-shadow 0.3s ease; 
+  cursor: pointer;
+  min-height: 220px; 
+}
+
+/* --- Card Image Styling --- */
+.feature-card img {
+  width: 100px; /* Controls the size, preventing blur from over-stretching */
+  height: 100px;
+  margin-bottom: 25px;
+  /* CRITICAL for clarity: Ensures the image scales correctly without distortion */
+  object-fit: contain;
+  background-size:cover;
+}
+
+/* --- Card Paragraph Styling (for clear visibility) --- */
+.feature-card p {
+  color: #555; /* Darker text for contrast */
+  font-size: 2rem; 
+  line-height: 1.4; 
+}
+
+/* ... rest of the CSS ... */
+/* Feature Card — Base */
+.feature-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(6px);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  text-align: center;
+  width: 80%;
+  max-width: 400px;
+  margin: 20px 0;
+  padding: 30px 20px;
+  color: #fff;
+  font-size:4rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  transition: transform 0.4s ease, box-shadow 0.4s ease, background 0.4s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ✨ Hover Effect */
+.feature-card:hover {
+  transform: translateY(-12px) scale(1.03);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* ✨ Add a glowing border animation on hover */
+.feature-card::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #ff00cc, #3333ff, #00ffff, #ffcc00);
+  background-size: 400% 400%;
+  z-index: -1;
+  border-radius: 17px;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.feature-card:hover::before {
+  opacity: 1;
+  animation: glowing-border 6s linear infinite;
+}
+
+@keyframes glowing-border {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+/* Style for the link wrapping the card */
+.flink {
+    text-decoration: none; /* Removes the default underline */
+    color: inherit; /* Keeps the text color the same as its parent */
+    display: block; /* Ensures the whole card area is clickable */
+}
+
+/* Optional: Add hover effect to show it's clickable */
+.flink:hover .feature-card {
+    /* Example: change the background color slightly on hover */
+    background-color: #f0f0f0; 
+    cursor: pointer; /* Changes the mouse cursor to a hand */
+}
+/* =======================
+   Scholarships Section
+======================= */
+#scholarships-section {
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #f0f9ff, #cbebff);
+}
+
+#scholarships-section .title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.scholarship-card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+}
+
+.scholarship-card:hover {
+  transform: translateY(-5px);
+}
+
+.apply-btn {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 8px 15px;
+  background: #2563eb;
+  color: white;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background 0.3s ease;
+}
+
+.apply-btn:hover {
+  background: #1e40af;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 20px;
+  background-color: #2C3E50;
+  color: #fff;
+}
+/* ---------- Footer Subscription Section ---------- */
+.footer-subscribe {
+  background: linear-gradient(135deg, #2b2e4a, #903749);
+  color: #fff;
+  text-align: center;
+  padding: 60px 20px;
+  margin-top: 50px;
+  position: relative;
+  overflow: hidden;
+}
+
+.footer-subscribe::before {
+  content: '';
+  position: absolute;
+  top: -100px;
+  left: -100px;
+  width: 250px;
+  height: 250px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  animation: floatBubble 8s infinite ease-in-out;
+}
+
+.footer-subscribe::after {
+  content: '';
+  position: absolute;
+  bottom: -120px;
+  right: -120px;
+  width: 300px;
+  height: 300px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 50%;
+  animation: floatBubble 10s infinite ease-in-out;
+}
+
+@keyframes floatBubble {
+  0% { transform: translate(0, 0); }
+  50% { transform: translate(30px, -30px); }
+  100% { transform: translate(0, 0); }
+}
+
+.subscribe-container {
+  position: relative;
+  z-index: 2;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.subscribe-container h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.subscribe-container p {
+  font-size: 1rem;
+  opacity: 0.9;
+  margin-bottom: 20px;
+}
+
+.subscribe-form {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.subscribe-form input[type="email"] {
+  padding: 12px 15px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 30px;
+  outline: none;
+  min-width: 250px;
+  flex: 1;
+  max-width: 400px;
+}
+
+.subscribe-form button {
+  padding: 12px 25px;
+  background-color: #ffce00;
+  color: #2b2e4a;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.subscribe-form button:hover {
+  background-color: #fff;
+  transform: translateY(-2px);
+}
+
+.subscribe-message {
+  margin-top: 15px;
+  font-size: 0.95rem;
+  font-style: italic;
+  color: #e8e8e8;
+}
+/* Hamburger icon (hidden by default) */
+.menu-toggle {
+  background: none;
+  border: none;
+  font-size: 28px;
+  color: white;
+  cursor: pointer;
+  display: none;
+}
+
+/* 🌐 Mobile Styles */
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block; /* show hamburger */
+  }
+
+  .nav-links {
+    display: none; /* hide links by default */
+    flex-direction: column;
+    background-color: #1f3b73;
+    position: absolute;
+    top: 60px; /* below navbar */
+    right: 20px;
+    width: 200px;
+    padding: 10px 0;
+    border-radius: 8px;
+  }
+
+  .nav-links.show {
+    display: flex; /* show links when toggled */
+  }
+
+  .nav-links li {
+    text-align: center;
+    padding: 10px 0;
+  }
+
+  .nav-links li a {
+    display: block;
+    width: 100%;
+  }
+}
